@@ -55,6 +55,6 @@ def write_to_database(arr):
 
 if __name__ == "__main__":
     # Use a raw string to avoid invalid escape sequences
-    csv_file_path = 'populatingDB/topic2_1.csv'
+    csv_file_path = 'populatingDB/topic2_2.csv'
     data_array = generate_array_for_csv_data(csv_file_path)
     write_to_database(data_array)

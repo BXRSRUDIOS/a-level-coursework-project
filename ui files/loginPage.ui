@@ -53,7 +53,7 @@
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>Sign Up Page</string>
+     <string>Login Page</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -85,7 +85,7 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>Sign Up To Join Us Today</string>
+        <string>Welcome Back, Please Login</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -104,147 +104,6 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="13" column="0" colspan="3">
-      <widget class="QLabel" name="errorLabel3">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: red;</string>
-       </property>
-       <property name="text">
-        <string>Password must be greater than 12 characters, have 2 uppercase characters, 2 numbers and 2 special characters</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="emailAddressPrompt_2">
-       <property name="font">
-        <font>
-         <pointsize>15</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Enter Password</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="accountTypePrompt">
-       <property name="font">
-        <font>
-         <pointsize>15</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Choose An Account Type</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="enterUsernamePrompt">
-       <property name="font">
-        <font>
-         <pointsize>15</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Enter Username</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QRadioButton" name="studentRadio">
-       <property name="font">
-        <font>
-         <pointsize>15</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Student</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QRadioButton" name="teacherRadio">
-       <property name="font">
-        <font>
-         <pointsize>15</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Teacher</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="emailAddressPrompt">
-       <property name="font">
-        <font>
-         <pointsize>15</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Enter Email Address</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0" colspan="3">
-      <widget class="QLabel" name="errorLabel1">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="whatsThis">
-        <string/>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: red;</string>
-       </property>
-       <property name="inputMethodHints">
-        <set>Qt::ImhNone</set>
-       </property>
-       <property name="text">
-        <string>Username must be between 8 and 32 characters long</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="1" colspan="2">
-      <widget class="QLineEdit" name="passwordEnter">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="placeholderText">
-        <string>Enter Password</string>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="1" colspan="2">
       <widget class="QLineEdit" name="usernameEnter">
        <property name="font">
@@ -260,65 +119,19 @@
        </property>
       </widget>
      </item>
-     <item row="14" column="1">
-      <spacer name="verticalSpacer_9">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="8" column="0" colspan="3">
-      <widget class="QLabel" name="errorLabel2">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: red;</string>
-       </property>
-       <property name="text">
-        <string>Email must be in a valid format</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="15" column="1">
-      <widget class="QPushButton" name="submitButton">
-       <property name="font">
-        <font>
-         <pointsize>15</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Submit</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1" colspan="2">
-      <widget class="QLineEdit" name="emailEnter">
+     <item row="9" column="1" colspan="2">
+      <widget class="QLineEdit" name="passwordEnter">
        <property name="font">
         <font>
          <pointsize>12</pointsize>
         </font>
        </property>
        <property name="placeholderText">
-        <string>Enter Email Address</string>
+        <string>Enter Password</string>
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="7" column="1">
       <spacer name="verticalSpacer_3">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -331,7 +144,7 @@
        </property>
       </spacer>
      </item>
-     <item row="6" column="1">
+     <item row="5" column="1">
       <spacer name="verticalSpacer_5">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -357,8 +170,123 @@
        </property>
       </spacer>
      </item>
+     <item row="0" column="1">
+      <widget class="QRadioButton" name="teacherRadio">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Teacher</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QRadioButton" name="studentRadio">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Student</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="enterUsernamePrompt">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Enter Username</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="emailAddressPrompt">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Enter Email Address</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" colspan="2">
+      <widget class="QLineEdit" name="emailEnter">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="placeholderText">
+        <string>Enter Email Address</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="1">
+      <widget class="QPushButton" name="submitButton">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Submit</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
+      <spacer name="verticalSpacer_9">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="emailAddressPrompt_2">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Enter Password</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="accountTypePrompt">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Choose An Account Type</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0" colspan="3">
-      <widget class="QLabel" name="errorLabel4">
+      <widget class="QLabel" name="errorLabel2">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -381,6 +309,30 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="0" colspan="3">
+      <widget class="QLabel" name="errorLabel1">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: red;</string>
+       </property>
+       <property name="text">
+        <string>Please Ensure a Valid Username, Email Address and Password is Provided (the exact ones you entered on sign in). If you have forgotten this information, please see &quot;contact us&quot; on the home page.</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

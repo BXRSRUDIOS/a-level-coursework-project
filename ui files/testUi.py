@@ -9,7 +9,14 @@ from dotenv import load_dotenv
 # Load environment variables from the .env file
 load_dotenv()
 # Set the path to the UI file
-ui_file_path = os.path.join(os.path.dirname(__file__), 'homePage.ui')
+
+files = {
+    "1": "homePage.ui",
+    "2": "signupPage.ui",
+    "3": "loginPage.ui",
+}
+
+ui_file_path = os.path.join(os.path.dirname(__file__), files["3"])
 # Load the UI file
 class HomePage(QMainWindow):
     def __init__(self):

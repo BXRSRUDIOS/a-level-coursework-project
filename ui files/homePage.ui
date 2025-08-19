@@ -17,11 +17,23 @@
    <widget class="QLabel" name="labelForPage">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>0</y>
       <width>81</width>
       <height>33</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>800</width>
+      <height>800</height>
+     </size>
     </property>
     <property name="font">
      <font>
@@ -44,58 +56,6 @@
      <string>Home Page</string>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>110</y>
-      <width>751</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="buttonsLayout">
-     <item>
-      <widget class="QPushButton" name="signUpButton">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Sign Up</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>150</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="loginButton">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Login</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -105,9 +65,9 @@
       <height>71</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="welcomeLayout">
+    <layout class="QVBoxLayout" name="welcomeLayout_4">
      <item>
-      <widget class="QLabel" name="welcomeHeader">
+      <widget class="QLabel" name="welcomeHeader_4">
        <property name="font">
         <font>
          <pointsize>20</pointsize>
@@ -134,18 +94,70 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>110</y>
+      <width>641</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="buttonsLayout_3">
+     <item>
+      <widget class="QPushButton" name="signUpButton_3">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Sign Up</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_15">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>150</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="loginButton_3">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Login</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>89</x>
-      <y>209</y>
-      <width>631</width>
-      <height>546</height>
+      <x>79</x>
+      <y>194</y>
+      <width>641</width>
+      <height>561</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout_2">
+    <layout class="QGridLayout" name="gridLayout_4">
      <item row="6" column="0">
-      <spacer name="horizontalSpacer_6">
+      <spacer name="horizontalSpacer_16">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -158,7 +170,7 @@
       </spacer>
      </item>
      <item row="6" column="1">
-      <widget class="QLabel" name="aboutUsText_3">
+      <widget class="QLabel" name="aboutUsText_5">
        <property name="font">
         <font>
          <pointsize>20</pointsize>
@@ -185,7 +197,7 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLabel" name="appUsageText">
+      <widget class="QLabel" name="appUsageText_3">
        <property name="font">
         <font>
          <pointsize>20</pointsize>
@@ -212,7 +224,7 @@
       </widget>
      </item>
      <item row="3" column="2">
-      <spacer name="horizontalSpacer_5">
+      <spacer name="horizontalSpacer_17">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -225,7 +237,7 @@
       </spacer>
      </item>
      <item row="4" column="0" colspan="3">
-      <widget class="QLabel" name="aboutUsInfo_2">
+      <widget class="QLabel" name="aboutUsInfo_7">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -273,7 +285,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="aboutUsText">
+      <widget class="QLabel" name="aboutUsText_3">
        <property name="font">
         <font>
          <pointsize>20</pointsize>
@@ -300,7 +312,7 @@
       </widget>
      </item>
      <item row="1" column="2">
-      <spacer name="horizontalSpacer_3">
+      <spacer name="horizontalSpacer_18">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -313,7 +325,7 @@
       </spacer>
      </item>
      <item row="1" column="0">
-      <spacer name="horizontalSpacer_2">
+      <spacer name="horizontalSpacer_19">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -326,7 +338,7 @@
       </spacer>
      </item>
      <item row="2" column="0" colspan="3">
-      <widget class="QLabel" name="aboutUsInfo">
+      <widget class="QLabel" name="aboutUsInfo_8">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -374,7 +386,7 @@
       </widget>
      </item>
      <item row="3" column="0">
-      <spacer name="horizontalSpacer_4">
+      <spacer name="horizontalSpacer_20">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -387,7 +399,7 @@
       </spacer>
      </item>
      <item row="7" column="0" colspan="3">
-      <widget class="QLabel" name="aboutUsInfo_3">
+      <widget class="QLabel" name="aboutUsInfo_9">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -418,7 +430,7 @@
         <number>1</number>
        </property>
        <property name="text">
-        <string>If you have any issues with the app, please contact 19braja@rgshw.com for more information on fixing these issues (ie changing your account type or reporting a bug within the app</string>
+        <string>This is a project made for my OCR A Level Computer Science Coursework. It consists of many features that can be viewed by creating an account or logging into your account</string>
        </property>
        <property name="textFormat">
         <enum>Qt::AutoText</enum>
@@ -435,7 +447,7 @@
       </widget>
      </item>
      <item row="6" column="2">
-      <spacer name="horizontalSpacer_7">
+      <spacer name="horizontalSpacer_21">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>

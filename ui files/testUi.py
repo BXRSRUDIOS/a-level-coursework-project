@@ -16,7 +16,8 @@ class HomePage(QMainWindow):
         super().__init__()
         uic.loadUi(ui_file_path, self)
         self.setWindowTitle("Home Page")  # Set the window title
-        self.setGeometry(100, 100, 800, 800)
+        #self.setGeometry(100, 100, 800, 800)
+
 def main():
     app = QApplication(sys.argv)
     window = HomePage()

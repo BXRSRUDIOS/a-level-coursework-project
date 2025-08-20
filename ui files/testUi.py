@@ -14,10 +14,11 @@ files = {
     "1": "homePage.ui",
     "2": "signupPage.ui",
     "3": "loginPage.ui",
-    "4": "modifyAccountStudent.ui",
+    "4": "modifyAccountPage.ui",
+    "5": "studentDashboardPage.ui"
 }
 
-ui_file_path = os.path.join(os.path.dirname(__file__), files["4"])
+ui_file_path = os.path.join(os.path.dirname(__file__), files["3"])
 # Load the UI file
 class HomePage(QMainWindow):
     def __init__(self):

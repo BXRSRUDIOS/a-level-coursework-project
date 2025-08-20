@@ -18,7 +18,7 @@ files = {
     "5": "studentDashboardPage.ui",
     "6": "chooseNotesPage.ui",
     "7": "chooseQuestionTopicPage.ui"
-}
+} # Continue adding more later
 
 ui_file_path = os.path.join(os.path.dirname(__file__), files["7"])
 # Load the UI file

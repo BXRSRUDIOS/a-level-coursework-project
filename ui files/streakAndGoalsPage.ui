@@ -204,7 +204,7 @@
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>View Homework Page</string>
+     <string>View Streaks &amp; Goals Page</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">

@@ -37,7 +37,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>141</width>
+      <width>171</width>
       <height>33</height>
      </rect>
     </property>
@@ -59,7 +59,7 @@
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>Manage Classes Page</string>
+     <string>Manage Homework Page</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -91,7 +91,7 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>Manage Your Classes &amp; Students</string>
+        <string>Manage Your Homework</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -248,8 +248,8 @@
    <widget class="QPushButton" name="returnToDashboard">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>720</y>
+      <x>300</x>
+      <y>730</y>
       <width>209</width>
       <height>32</height>
      </rect>
@@ -263,13 +263,13 @@
      <string>Return To Dashboard</string>
     </property>
    </widget>
-   <widget class="QTabWidget" name="classManagement">
+   <widget class="QTabWidget" name="homeworkManagement">
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>210</y>
+      <y>190</y>
       <width>661</width>
-      <height>491</height>
+      <height>531</height>
      </rect>
     </property>
     <property name="font">
@@ -278,291 +278,58 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
-    <widget class="QWidget" name="classView">
+    <widget class="QWidget" name="homeworkView">
      <attribute name="title">
-      <string>View Your Classes</string>
+      <string>View Your Homework</string>
      </attribute>
-     <widget class="QTableWidget" name="classes">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>10</y>
-        <width>211</width>
-        <height>441</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>104</number>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Class Name</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Year Group</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QWidget" name="formLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>250</x>
-        <y>10</y>
-        <width>391</width>
-        <height>441</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0" colspan="2">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>10</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="label">
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-           <underline>false</underline>
-          </font>
-         </property>
-         <property name="text">
-          <string>Create Class</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="classNameLabel">
-         <property name="text">
-          <string>Class Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="classNameLineEdit"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="yearGroupLabel">
-         <property name="text">
-          <string>Year Group</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QSpinBox" name="yearGroupSpinBox">
-         <property name="minimum">
-          <number>7</number>
-         </property>
-         <property name="maximum">
-          <number>11</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QPushButton" name="createClassButton">
-         <property name="text">
-          <string>Create Class</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>78</width>
-           <height>17</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QLabel" name="label_3">
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-           <underline>false</underline>
-          </font>
-         </property>
-         <property name="text">
-          <string>Modify Class Details</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="chooseClassLabel">
-         <property name="text">
-          <string>Choose Class</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QComboBox" name="chooseClassComboBox"/>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="renameClassNameLabel">
-         <property name="text">
-          <string>Rename Class Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QLineEdit" name="renameClassNameLineEdit"/>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="changeYearGroupLabel">
-         <property name="text">
-          <string>Change Year Group</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QSpinBox" name="changeYearGroupSpinBox">
-         <property name="minimum">
-          <number>7</number>
-         </property>
-         <property name="maximum">
-          <number>11</number>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="QPushButton" name="modifyClassButton">
-         <property name="text">
-          <string>Modify Class</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="2">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>78</width>
-           <height>17</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="12" column="0" colspan="2">
-        <widget class="QLabel" name="label_4">
-         <property name="font">
-          <font>
-           <pointsize>15</pointsize>
-           <underline>false</underline>
-          </font>
-         </property>
-         <property name="text">
-          <string>Remove Class</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QLabel" name="removeClassLabel">
-         <property name="text">
-          <string>Remove Class</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="1">
-        <widget class="QComboBox" name="removeClassComboBox"/>
-       </item>
-       <item row="15" column="0" colspan="2">
-        <widget class="QPushButton" name="removeClassButton">
-         <property name="text">
-          <string>Remove Class</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="studentView">
-     <attribute name="title">
-      <string>View Your Students</string>
-     </attribute>
-     <widget class="QTableWidget" name="classes_2">
+     <widget class="QTableWidget" name="homeworkTable">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>10</y>
         <width>321</width>
-        <height>441</height>
+        <height>481</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <pointsize>12</pointsize>
        </font>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
        <number>106</number>
       </attribute>
       <column>
        <property name="text">
-        <string>Name</string>
+        <string>Homework</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Username</string>
+        <string>Due Date</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Email Address</string>
+        <string>Difficulty</string>
        </property>
       </column>
      </widget>
-     <widget class="QWidget" name="formLayoutWidget_2">
+     <widget class="QWidget" name="formLayoutWidget">
       <property name="geometry">
        <rect>
         <x>340</x>
-        <y>50</y>
+        <y>10</y>
         <width>311</width>
-        <height>361</height>
+        <height>487</height>
        </rect>
       </property>
-      <layout class="QFormLayout" name="formLayout_2">
+      <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0" colspan="2">
         <spacer name="verticalSpacer_4">
          <property name="orientation">
@@ -580,7 +347,7 @@
         </spacer>
        </item>
        <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="label_6">
+        <widget class="QLabel" name="label_8">
          <property name="font">
           <font>
            <pointsize>15</pointsize>
@@ -588,7 +355,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Choose Class To Manage Students</string>
+          <string>Choose Class To Manage</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -596,14 +363,14 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="chooseClassLabel_2">
+        <widget class="QLabel" name="chooseClassLabel">
          <property name="text">
           <string>Choose Class</string>
          </property>
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QComboBox" name="chooseClassComboBox_2"/>
+        <widget class="QComboBox" name="chooseClassComboBox"/>
        </item>
        <item row="3" column="0" colspan="2">
         <spacer name="verticalSpacer_6">
@@ -622,7 +389,7 @@
         </spacer>
        </item>
        <item row="4" column="0" colspan="2">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_6">
          <property name="font">
           <font>
            <pointsize>15</pointsize>
@@ -630,37 +397,47 @@
           </font>
          </property>
          <property name="text">
-          <string>Add Student</string>
+          <string>Create Homework</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="enterUsernameLabel">
+       <item row="6" column="0">
+        <widget class="QLabel" name="homeworkNameLabel">
          <property name="text">
-          <string>Enter Username</string>
+          <string>Homework Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="homeworkNameLineEdit"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="dueDateLabel">
+         <property name="text">
+          <string>Due Date</string>
          </property>
         </widget>
        </item>
        <item row="7" column="1">
-        <widget class="QLineEdit" name="enterUsernameLineEdit"/>
+        <widget class="QDateEdit" name="dueDateDateEdit"/>
        </item>
        <item row="8" column="0">
-        <widget class="QLabel" name="enterEmailLabel">
+        <widget class="QLabel" name="difficultyLabel">
          <property name="text">
-          <string>Enter Email</string>
+          <string>Difficulty</string>
          </property>
         </widget>
        </item>
        <item row="8" column="1">
-        <widget class="QLineEdit" name="enterEmailLineEdit"/>
+        <widget class="QComboBox" name="difficultyComboBox"/>
        </item>
        <item row="9" column="0" colspan="2">
-        <widget class="QPushButton" name="addStudentButton">
+        <widget class="QPushButton" name="createHomeworkButton">
          <property name="text">
-          <string>Add Student</string>
+          <string>Create Homework</string>
          </property>
         </widget>
        </item>
@@ -681,7 +458,7 @@
         </spacer>
        </item>
        <item row="11" column="0" colspan="2">
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="label_7">
          <property name="font">
           <font>
            <pointsize>15</pointsize>
@@ -689,32 +466,343 @@
           </font>
          </property>
          <property name="text">
-          <string>Remove Student</string>
+          <string>Modify Homework</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="chooseStudentLabel">
+       <item row="12" column="0">
+        <widget class="QLabel" name="chooseHomeworkLabel">
          <property name="text">
-          <string>Choose Student</string>
+          <string>Choose Homework</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1">
+        <widget class="QComboBox" name="chooseHomeworkComboBox"/>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="renameHomeworkLabel">
+         <property name="text">
+          <string>Rename Homework</string>
          </property>
         </widget>
        </item>
        <item row="13" column="1">
-        <widget class="QComboBox" name="chooseStudentComboBox"/>
+        <widget class="QLineEdit" name="renameHomeworkLineEdit"/>
        </item>
-       <item row="14" column="0" colspan="2">
-        <widget class="QPushButton" name="removeStudentButton">
+       <item row="14" column="0">
+        <widget class="QLabel" name="changeDueDateLabel">
          <property name="text">
-          <string>Remove Student</string>
+          <string>Change Due Date</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="0" colspan="2">
-        <spacer name="verticalSpacer_7">
+       <item row="14" column="1">
+        <widget class="QDateEdit" name="changeDueDateDateEdit"/>
+       </item>
+       <item row="15" column="0">
+        <widget class="QLabel" name="changeDifficultyLabel">
+         <property name="text">
+          <string>Change Difficulty</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="1">
+        <widget class="QComboBox" name="changeDifficultyComboBox"/>
+       </item>
+       <item row="16" column="0" colspan="2">
+        <widget class="QPushButton" name="modifyHomeworkButton">
+         <property name="text">
+          <string>Modify Homework</string>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="0" colspan="2">
+        <widget class="QPushButton" name="deleteHomeworkButton">
+         <property name="text">
+          <string>Delete Homework</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="questionView">
+     <attribute name="title">
+      <string>View Questions For Homework</string>
+     </attribute>
+     <widget class="QTableWidget" name="classes_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>641</width>
+        <height>341</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>130</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>ID</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Question</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Correct Answer</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Incorrect Answer A</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Incorrect Answer B</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Incorrect Answer C</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Topic</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Difficulty</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Feedback</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>9</y>
+        <width>641</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <layout class="QFormLayout" name="formLayout_2">
+         <property name="formAlignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="chooseClassLabel_2">
+           <property name="text">
+            <string>Choose Class</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="chooseClassComboBox_2"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout_3">
+         <property name="formAlignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="chooseHomeworkLabel_2">
+           <property name="text">
+            <string>Choose Homework</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="chooseHomeworkComboBox_2"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>440</y>
+        <width>641</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_10">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <underline>false</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Remove Question</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="removeQuestionEnter">
+         <property name="placeholderText">
+          <string>Enter Question ID From Table Above</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="removeQuestionButton">
+         <property name="text">
+          <string>Submit</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="genQuestions">
+     <attribute name="title">
+      <string>Generate Questions</string>
+     </attribute>
+     <widget class="QWidget" name="horizontalLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>641</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <layout class="QFormLayout" name="formLayout_6">
+         <property name="formAlignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="chooseClassLabel_4">
+           <property name="text">
+            <string>Choose Class</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="chooseClassComboBox_4"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout_7">
+         <property name="formAlignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="chooseHomeworkLabel_4">
+           <property name="text">
+            <string>Choose Homework</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="chooseHomeworkComboBox_4"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>641</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+           <underline>false</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Generate Questions From Question Bank (Max 40 Per Generation)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="formLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>641</width>
+        <height>361</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout_8">
+       <item row="0" column="0">
+        <widget class="QLabel" name="numberOfQuestionsLabel">
+         <property name="text">
+          <string>Number Of Questions</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="numberOfQuestionsSpinBox">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>40</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="difficultyLabel_2">
+         <property name="text">
+          <string>Difficulty</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="difficultyComboBox_2"/>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -724,7 +812,179 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>10</height>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QCheckBox" name="topic1_1">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 1.1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic1_2">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 1.2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic1_3">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 1.3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic1_4">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 1.4</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic1_5">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 1.5</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic1_6">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 1.6</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QCheckBox" name="topic2_1">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 2.1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic2_2">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 2.2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic2_3">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 2.3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic2_4">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 2.4</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="topic2_5">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topic 2.5</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QPushButton" name="genQuestionButton">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Generate Questions</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
           </size>
          </property>
         </spacer>
@@ -732,6 +992,505 @@
       </layout>
      </widget>
     </widget>
+    <widget class="QWidget" name="customQuestionGen">
+     <attribute name="title">
+      <string>Add Custom Question</string>
+     </attribute>
+     <widget class="QWidget" name="horizontalLayoutWidget_6">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>651</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <layout class="QFormLayout" name="formLayout_12">
+         <property name="formAlignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="chooseClassLabel_6">
+           <property name="text">
+            <string>Choose Class</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="chooseClassComboBox_6"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout_13">
+         <property name="formAlignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="chooseHomeworkLabel_6">
+           <property name="text">
+            <string>Choose Homework</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="chooseHomeworkComboBox_6"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_5">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>80</y>
+        <width>651</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+           <underline>false</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Add Custom Question To Homework</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_15">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Scroll Down For All Details</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>120</y>
+        <width>641</width>
+        <height>380</height>
+       </rect>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>-294</y>
+         <width>622</width>
+         <height>672</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <layout class="QFormLayout" name="formLayout_14">
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="label">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Enter Question Information</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="enterQuestionLabel">
+            <property name="text">
+             <string>Enter Question</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="enterQuestionLineEdit"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="enterDifficultyLabel">
+            <property name="text">
+             <string>Enter Difficulty</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="enterDifficultyComboBox"/>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="0" colspan="2">
+           <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Enter Answer Information</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="enterCorrectAnswerLabel">
+            <property name="text">
+             <string>Enter Correct Answer</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="enterCorrectAnswerLineEdit"/>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="enterIncorrectAnswer1Label">
+            <property name="text">
+             <string>Enter Incorrect Answer 1</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="enterIncorrectAnswer1LineEdit"/>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="enterIncorrectAnswer2Label">
+            <property name="text">
+             <string>Enter Incorrect Answer 2</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="enterIncorrectAnswer2LineEdit"/>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="enterIncorrectAnswer3Label">
+            <property name="text">
+             <string>Enter Incorrect Answer 3</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QLineEdit" name="enterIncorrectAnswer3LineEdit"/>
+          </item>
+          <item row="9" column="0" colspan="2">
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="10" column="0" colspan="2">
+           <widget class="QLabel" name="label_4">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Choose Topic</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <widget class="QCheckBox" name="topic1_13">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 1.1</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic1_14">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 1.2</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic1_15">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 1.3</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic1_16">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 1.4</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic1_17">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 1.5</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic1_18">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 1.6</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <item>
+               <widget class="QCheckBox" name="topic2_6">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 2.1</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic2_7">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 2.2</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic2_8">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 2.3</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic2_9">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 2.4</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="topic2_10">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Topic 2.5</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item row="12" column="0" colspan="2">
+           <spacer name="verticalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="14" column="0">
+           <widget class="QLabel" name="enterFeedbackLabel">
+            <property name="text">
+             <string>Enter Feedback</string>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="1">
+           <widget class="QTextEdit" name="textEdit">
+            <property name="placeholderText">
+             <string>Enter Feedback For When Student Gets Question Incorrect</string>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0" colspan="2">
+           <spacer name="verticalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="16" column="0" colspan="2">
+           <widget class="QPushButton" name="addQuestionButton">
+            <property name="text">
+             <string>Add Question</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="0" colspan="2">
+           <widget class="QLabel" name="label_14">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Enter Student Feedback</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>450</y>
+      <width>602</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Choose Topic</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -278,13 +278,13 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="classView">
      <attribute name="title">
       <string>View Your Classes</string>
      </attribute>
-     <widget class="QTableWidget" name="classes">
+     <widget class="QTableWidget" name="classesTable">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -297,6 +297,9 @@
        <font>
         <pointsize>12</pointsize>
        </font>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
        <number>104</number>
@@ -520,7 +523,7 @@
      <attribute name="title">
       <string>View Your Students</string>
      </attribute>
-     <widget class="QTableWidget" name="classes_2">
+     <widget class="QTableWidget" name="studentsTable">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -533,6 +536,9 @@
        <font>
         <pointsize>12</pointsize>
        </font>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
        <number>106</number>

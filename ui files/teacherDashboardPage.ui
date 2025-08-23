@@ -59,7 +59,7 @@
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>Student Dashboard</string>
+     <string>Teacher Dashboard</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">

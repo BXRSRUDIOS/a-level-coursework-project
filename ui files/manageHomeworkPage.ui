@@ -1107,7 +1107,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-294</y>
+         <y>0</y>
          <width>622</width>
          <height>672</height>
         </rect>
@@ -1257,7 +1257,7 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_9">
               <item>
-               <widget class="QCheckBox" name="topic1_13">
+               <widget class="QCheckBox" name="Topic1_1">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1269,7 +1269,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="topic1_14">
+               <widget class="QCheckBox" name="Topic1_2">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1281,7 +1281,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="topic1_15">
+               <widget class="QCheckBox" name="Topic1_3">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1293,7 +1293,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="topic1_16">
+               <widget class="QCheckBox" name="Topic1_4">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1305,7 +1305,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="topic1_17">
+               <widget class="QCheckBox" name="Topic1_5">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1317,7 +1317,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="topic1_18">
+               <widget class="QCheckBox" name="Topic1_6">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1333,7 +1333,7 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_10">
               <item>
-               <widget class="QCheckBox" name="topic2_6">
+               <widget class="QCheckBox" name="Topic2_1">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1345,7 +1345,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="topic2_7">
+               <widget class="QCheckBox" name="Topic2_2">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1357,7 +1357,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="topic2_8">
+               <widget class="QCheckBox" name="Topic2_3">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1381,7 +1381,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="topic2_10">
+               <widget class="QCheckBox" name="Topic2_5">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -1411,6 +1411,21 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="13" column="0" colspan="2">
+           <widget class="QLabel" name="label_14">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Enter Student Feedback</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
           </item>
           <item row="14" column="0">
            <widget class="QLabel" name="enterFeedbackLabel">
@@ -1449,48 +1464,12 @@
             </property>
            </widget>
           </item>
-          <item row="13" column="0" colspan="2">
-           <widget class="QLabel" name="label_14">
-            <property name="font">
-             <font>
-              <pointsize>15</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Enter Student Feedback</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
        </layout>
       </widget>
      </widget>
     </widget>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>450</y>
-      <width>602</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>15</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Choose Topic</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

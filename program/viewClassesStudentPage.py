@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget # type: ignore
 from PyQt6 import uic
 
 class ViewClassesStudent(QMainWindow):

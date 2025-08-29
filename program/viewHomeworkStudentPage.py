@@ -1,6 +1,6 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget
-from PyQt6 import uic
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget # type: ignore
+from PyQt6 import uic # type: ignore
 
 class ViewHomeworkStudent(QMainWindow):
     def __init__(self):

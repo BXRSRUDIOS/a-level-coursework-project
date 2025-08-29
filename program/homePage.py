@@ -29,10 +29,3 @@ class HomePage(QMainWindow):
         # The signal from button press calls the function which calls the controller to change page
         if self.controller:
             self.controller.handlePageChange("login")
-
-if __name__ == "__main__":
-    # Temp load page to test when I run this file. main.py will be the file that runs everything else
-    app = QApplication(sys.argv)
-    window = HomePage() # Create instance of HomePage
-    window.show()
-    sys.exit(app.exec())

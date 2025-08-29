@@ -86,7 +86,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="username_3">
+       <widget class="QLabel" name="username">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -135,7 +135,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="manageAccountDetails_3">
+       <widget class="QPushButton" name="manageAccountDetails">
         <property name="font">
          <font>
           <pointsize>12</pointsize>

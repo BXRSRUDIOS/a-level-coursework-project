@@ -11,13 +11,10 @@ class SignUpPage(QMainWindow):
 
         # Create a link to the main controller 
         self.controller = None # All initialisations of the controller will be done in main.py
+
+        # Connect button signals to their respective functions
+        self.returnHome.clicked.connect(lambda: self.controller.handlePageChange("home"))
+        self.submitButton.clicked.connect(lambda: self.controller.handlePageChange("teacherDashboard")) # Temporary, submit button will be its own function later on
     
     def setController(self, controller):
         self.controller = controller
-
-if __name__ == "__main__":
-    # Temp load page to test when I run this file. main.py will be the file that runs everything else
-    app = QApplication(sys.argv)
-    window = SignUpPage() # Create instance of SignUpPage
-    window.show()
-    sys.exit(app.exec())

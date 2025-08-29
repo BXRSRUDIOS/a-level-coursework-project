@@ -86,7 +86,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="username_3">
+       <widget class="QLabel" name="username">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -135,7 +135,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="manageAccountDetails_3">
+       <widget class="QPushButton" name="manageAccountDetails">
         <property name="font">
          <font>
           <pointsize>12</pointsize>
@@ -163,7 +163,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="logoutAccount_3">
+       <widget class="QPushButton" name="logoutAccount">
         <property name="font">
          <font>
           <pointsize>12</pointsize>
@@ -505,7 +505,7 @@ p, li { white-space: pre-wrap; }
      <string>Next Question</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="nextQuestion_2">
+   <widget class="QPushButton" name="previousQuestion">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -532,7 +532,7 @@ p, li { white-space: pre-wrap; }
    <zorder>frame_3</zorder>
    <zorder>submitAnswer</zorder>
    <zorder>nextQuestion</zorder>
-   <zorder>nextQuestion_2</zorder>
+   <zorder>previousQuestion</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

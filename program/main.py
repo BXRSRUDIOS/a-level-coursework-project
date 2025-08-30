@@ -3,6 +3,7 @@ import sys
 import psycopg2
 import os
 import io
+import hashlib
 from dotenv import load_dotenv
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget
 from PyQt6 import uic
@@ -164,8 +165,8 @@ class Controller(QMainWindow):
         self.handlePageChange("home") # Start on the home page
 
 class User:
-    def __init__(self, user_id, firstName, surname, username, email, password, accountType):
-        self.user_id = user_id
+    def __init__(self, firstName, surname, username, email, accountType):
+        self.user_id = None # User ID will be set when the user is created in the databaseS
         self.firstName = firstName
         self.surname = surname
         self.username = username
@@ -185,10 +186,176 @@ class User:
     def setController(self, controller):
         # Function to set the controller for the user class so that database functions can be called
         self.controller = controller
+    
+    def checkUsernameUnique(self):
+        # Function to check if the username is unique in the database
+        if self.accountType == "student": # Create the right query for correct account type
+            query = "SELECT username FROM student WHERE username = %s"
+        else:
+            query = "SELECT username FROM teacher WHERE username = %s"
+        parameter = (self.username,)
+        result = self.controller.database(query, parameter, "fetchItems") # Get items
+
+        if result: # Check if a result was returned
+            return False
+        else:
+            return True
+    
+    def checkEmailUnique(self):
+        # Function to check if the email is unique in the database
+        if self.accountType == "student":
+            query = "SELECT emailaddress FROM student WHERE emailaddress = %s"
+        else:
+            query = "SELECT emailaddress FROM teacher WHERE emailaddress = %s"
+        parameter = (self.email,)
+        result = self.controller.database(query, parameter, "fetchItems") # Get items
+        
+        if result: # Check if a result was returned
+            return False
+        else:
+            return True
+        
+    def checkUsernameIsValid(self):
+        # Function to check if the username is valid based on certain criteria
+        # SQL Injection Prevention not needed as PostgreSQL  will handle it
+        # You learn something new everyday
+
+        # Load harmful words from the badwords.txt file
+        harmfulWordsList = []
+        try:
+            with open("program/badwords.txt", "r") as file:
+                harmfulWordsList = [line.strip() for line in file.readlines()]
+        except FileNotFoundError:
+            print("File Not Found - Check Skipped.")
+            return False
+
+        # Presence Check for Username - Does it exist?
+        if self.username is not None and self.username != "":
+
+            # Length Check for Username
+            if len(self.username) >= 8 and len(self.username) <= 32:
+                
+                # Security Check for certain terms (consists of phrases found in a file of inappropriate content)
+                if self.username.lower() not in harmfulWordsList:
+
+                    # Format Check For Special Characters
+                    specialChars = '''!"#$%&'()*+,-./:;<=>?@[]^_`{|}~ '''
+                    if not(any(char in specialChars for char in self.username)):
+
+                        # Uniqueness Test using username uniqueness function
+                        if self.checkUsernameUnique() == True:
+                            # If all conditions met, return True
+                            return True
+                        
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
+    
+    def checkEmailIsValid(self):
+        # Load harmful words from the badwords.txt file
+        harmfulWordsList = []
+        try:
+            with open("program/badwords.txt", "r") as file:
+                harmfulWordsList = [line.strip() for line in file.readlines()]
+        except FileNotFoundError:
+            print("File Not Found - Check Skipped.")
+            return False
+        
+        # Presence Check for Email - Does it exist?
+        if self.email is not None and self.email != "":
+            # Length Check for email
+            if len(self.email) >= 10 and "@" in self.email and (".com" in self.email or ".co.uk" in self.email or ".org" in self.email or ".net" in self.email):
+                
+                # Security Check for certain terms (consists of phrases found in a file of inappropriate content)
+                if not any(badword in self.email.lower() for badword in harmfulWordsList):
+
+                    # Format Check For Special Characters
+                    specialChars = '''!"#$%&'()*+,-/:;<=>?[]^_`{|}~ '''
+                    requiredChars = "@."
+                    if any(char in requiredChars for char in self.email) and not(any(char in specialChars for char in self.email)):
+
+                        # Uniqueness Test using username uniqueness function
+                        if self.checkEmailUnique() == True:
+                            # If all conditions met, return True
+                            return True
+                        else:
+                            print("Failed 4")
+                            return False
+                    else:
+                        print("Failed 3")
+                        return False
+                else:
+                    print("Failed 2")
+                    return False
+            else:
+                print("Failed 1")
+                return False
+        else:
+            print("Failed 0")
+            return False
+    
+    def checkPasswordStrength(self, password):
+        # Function to check if the password is of valid length
+        
+        # Take password as a parameter so that the password isn't stored in the class
+
+        # Get the sets of characters to find
+        uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        numbers = "0123456789"
+        specials = '''!"#$%&'()*+,-./:;<=>?@[]^_`{|}~ '''
+
+        # Count Characters Variables
+        upperCount = 0
+        numberCount = 0
+        specialCount = 0
+        
+        # Length Check for Password
+        if len(password) >= 12:
+            # Check for at least 2 uppercase, 2 numbers and 2 special characters
+            # Increment relevant counters when found
+            for char in password:
+                if char in uppers:
+                    upperCount += 1
+                if char in numbers:
+                    numberCount += 1
+                if char in specials:
+                    specialCount += 1
+            # Check values of counters and see if they meet the criteria
+            if upperCount >= 2 and numberCount >= 2 and specialCount >= 2:
+                return True
+            else:
+                return False
+        else:
+            return False
+            
+    def generateHashedPassword(self, password, salt=os.urandom(16)):
+        # Function to generate a hashed password and salt for the user
+        # Password is now a parameter rather than an attribute of the class for security reasons
+        # Salt is generated using os.urandom(16) which creates a random 16 byte string if no salt is provided
+        # Uses Blake2b as a hashing algorithm
+        # 100,000 iterations of the hash prevents brute force attacks
+        # 64 byte length for the hash
+        hash = hashlib.pdkdf2_hmac("blake2b", password, salt, iterations=100000, dklen=64)
+
+        return (hash, salt)
 
 if __name__ == "__main__":
     # Load up the program
-    app = QApplication(sys.argv)
-    controller = Controller()
-    controller.run()
-    sys.exit(app.exec())
+    #app = QApplication(sys.argv)
+    #controller = Controller()
+    
+    tempUser1 = User("Bilal", "Raja", "testbadword", "kLamar@school.co.uk", "student")
+    #tempUser1.setController(controller)
+    print(tempUser1.generateHashedPassword("CompSci12!!")) # Should return True as the user doesn't exist
+
+   
+
+    #controller.run()
+    #sys.exit(app.exec())

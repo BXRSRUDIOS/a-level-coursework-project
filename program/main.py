@@ -335,16 +335,19 @@ class User:
         else:
             return False
             
-    def generateHashedPassword(self, password, salt=os.urandom(16)):
+    def generateHashedPassword(self, password):
         # Function to generate a hashed password and salt for the user
         # Password is now a parameter rather than an attribute of the class for security reasons
         # Salt is generated using os.urandom(16) which creates a random 16 byte string if no salt is provided
         # Uses Blake2b as a hashing algorithm
         # 100,000 iterations of the hash prevents brute force attacks
         # 64 byte length for the hash
-        hash = hashlib.pdkdf2_hmac("blake2b", password, salt, iterations=100000, dklen=64)
 
-        return (hash, salt)
+        salt = os.urandom(16)
+
+        hash = hashlib.pbkdf2_hmac("blake2b", password.encode('utf-8'), salt, iterations=100000, dklen=64)
+
+        return (hash.hex(), salt.hex())
 
 if __name__ == "__main__":
     # Load up the program
@@ -353,7 +356,7 @@ if __name__ == "__main__":
     
     tempUser1 = User("Bilal", "Raja", "testbadword", "kLamar@school.co.uk", "student")
     #tempUser1.setController(controller)
-    print(tempUser1.generateHashedPassword("CompSci12!!")) # Should return True as the user doesn't exist
+    print(tempUser1.generateHashedPassword("iLoveComputerScience123!!")) # Should return True as the user doesn't exist
 
    
 

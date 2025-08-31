@@ -6,7 +6,6 @@ import io
 import hashlib
 from dotenv import load_dotenv
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget
-from PyQt6 import uic
 from PyQt6.QtCore import QSize
 
 # Import Classes for all the different pages
@@ -96,6 +95,7 @@ class Controller(QMainWindow):
         self.teacher_statistics.setController(self)
 
         # Controllers for other classes
+        self.user = None # Set reference to this in separate function
     
     def handlePageChange(self, nameForIndex):
         # This will change the index to the relevant page when called
@@ -157,6 +157,12 @@ class Controller(QMainWindow):
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
+    
+    def createUserReference(self, firstName, surname, username, email, accountType):
+        # Create relevant object & store in self.user (initiated in the constructor already)
+        user = User(firstName, surname, username, email, accountType)
+        self.user = user
+        self.user.setController(self)
 
     def run(self):
         # Actually goes and runs the application by showing the stacked widget
@@ -349,16 +355,11 @@ class User:
 
         return (hash.hex(), salt.hex())
 
+
 if __name__ == "__main__":
     # Load up the program
-    #app = QApplication(sys.argv)
-    #controller = Controller()
-    
-    tempUser1 = User("Bilal", "Raja", "testbadword", "kLamar@school.co.uk", "student")
-    #tempUser1.setController(controller)
-    print(tempUser1.generateHashedPassword("iLoveComputerScience123!!")) # Should return True as the user doesn't exist
+    app = QApplication(sys.argv)
+    controller = Controller()
 
-   
-
-    #controller.run()
-    #sys.exit(app.exec())
+    controller.run()
+    sys.exit(app.exec())

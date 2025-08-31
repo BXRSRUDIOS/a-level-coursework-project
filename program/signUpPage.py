@@ -14,7 +14,36 @@ class SignUpPage(QMainWindow):
 
         # Connect button signals to their respective functions
         self.returnHome.clicked.connect(lambda: self.controller.handlePageChange("home"))
-        self.submitButton.clicked.connect(lambda: self.controller.handlePageChange("teacherDashboard")) # Temporary, submit button will be its own function later on
+        self.submitButton.clicked.connect(self.submit) # Temporary, submit button will be its own function later on
     
     def setController(self, controller):
         self.controller = controller
+    
+    def submit(self):
+        # Used for the submit button to check for validation and perform all the checks required & then store to database
+        # Remember to do valid page switching afterwards
+
+        # Take all user input from the form
+        firstname = self.firstNameEnter.text()
+        surname = self.surnameEnter.text()
+        username = self.usernameEnter.text()
+        emailAddress = self.emailEnter.text()
+        password = self.passwordEnter.text()
+        accountType = ""
+        checked = True
+
+        # Check to see if teacher or student has been selected or if neither have been selected
+        if not(self.studentRadio.isChecked() or self.teacherRadio.isChecked()):
+            checked = False
+        elif self.studentRadio.isChecked():
+            accountType = "Student"
+        elif self.teacherRadio.isChecked():
+            accountType = "Teacher"
+
+        # Forced Presence Check regardless of whether a validation function handles it or not
+        if firstname == "" or surname == "" or username == "" or emailAddress == "" or password == "" or checked == False:
+            print("Some information hasn't been entered") # Replace with Popup afterwards
+        else:
+            self.controller.createUserReference(firstname, surname, username, emailAddress, accountType)
+
+        

@@ -2,6 +2,8 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox
 from PyQt6 import uic
 from helperFunctions.decorators import handle_exceptions
+import random
+import datetime
 
 class SignUpPage(QMainWindow):
     def __init__(self):
@@ -15,7 +17,7 @@ class SignUpPage(QMainWindow):
 
         # Connect button signals to their respective functions
         self.returnHome.clicked.connect(lambda: self.controller.handlePageChange("home"))
-        self.submitButton.clicked.connect(self.submit) # Temporary, submit button will be its own function later on
+        self.submitButton.clicked.connect(self.submit)
     
     @handle_exceptions
     def setController(self, controller):
@@ -93,11 +95,108 @@ class SignUpPage(QMainWindow):
         self.controller.user.hashedPassword = hashedPassword
         self.controller.user.salt = salt
         
-        # Add database work here
-
+        # Store user account details in params for database processing because then I don't have ugly looking long code lines
+        params = (self.controller.user.firstName, self.controller.user.surname, self.controller.user.username, 
+                  self.controller.user.email, self.controller.user.hashedPassword, self.controller.user.salt)
+        
+        if self.controller.user.accountType == "Teacher": # Check account type
+            # Store the teacher account & complete
+            self.controller.database("""INSERT INTO teacher (firstname, surname, username, emailaddress, hashedpassword, salt)
+                                     VALUES (%s, %s, %s, %s, %s, %s);
+                                     """, parameter=params, 
+                                     queryType="changeDatabase")
+            self.controller.user.user_id = self.controller.database("SELECT id FROM teacher WHERE username = %s;", 
+                                                                    parameter=(self.controller.user.username,), 
+                                                                    queryType="fetchItems")[0][0]
+        elif self.controller.user.accountType == "Student":
+            # Store the student account
+            self.controller.database("""INSERT INTO student (firstname, surname, username, emailaddress, hashedpassword, salt)
+                                     VALUES (%s, %s, %s, %s, %s, %s);
+                                     """, parameter=params, 
+                                     queryType="changeDatabase")
+            
+            # Store the user id for further processing for statistics & goals in generateEmptyStatistics()
+            self.controller.user.user_id = self.controller.database("SELECT id FROM student WHERE username = %s;", 
+                                                                    parameter=(self.controller.user.username,), 
+                                                                    queryType="fetchItems")[0][0]
+            self.generateEmptyStatistics(self.controller.user.user_id)
 
         # Correct page switching
         if self.controller.user.accountType == "Student":
             self.controller.handlePageChange("studentDashboard")
         elif self.controller.user.accountType == "Teacher":
             self.controller.handlePageChange("teacherDashboard")
+    
+    @handle_exceptions
+    def generateEmptyStatistics(self, user_id):
+        # Start by handling the login statuses
+        # Store params early to not deal with ugly code
+        today = datetime.date.today() # Today's date for "lastDayLoggedIn"
+        params = (user_id, True, today, False)
+        self.controller.database("""INSERT INTO login_statuses (student_id, alreadyLoggedInToday, lastDayLoggedIn, isBlocked)
+                                     VALUES (%s, %s, %s, %s);
+                                     """, parameter=params, 
+                                     queryType="changeDatabase")
+        
+        # Handle streaks
+        self.controller.database("""INSERT INTO streaks (student_id, numberDaysStreak, longestDaysStreak)
+                                     VALUES (%s, %s, %s);
+                                     """, parameter=(user_id, 1, 1), 
+                                     queryType="changeDatabase")
+        
+        # Handle Goals
+        # Generate Targets
+        numberLoginsNeededThisWeek = random.randint(2,5),
+        numberQuestionsToAnswerThisWeek = random.randint(25,50),
+
+        # Create a params tuple
+        params = (user_id, numberLoginsNeededThisWeek, numberQuestionsToAnswerThisWeek, 1, 0, 0, 0)
+        self.controller.database("""INSERT INTO goals (student_id, timesLoggedInTarget, questionsAnsweredTarget, homeworksCompletedTarget, timesLoggedIn, questionsAnswered, homeworksCompleted)
+                                     VALUES (%s, %s, %s, %s, %s, %s, %s);
+                                     """, parameter=params, 
+                                     queryType="changeDatabase")
+        
+        # Handle Overall Statistics
+        params = (user_id, 0, 0, 0, 0)
+        self.controller.database("""INSERT INTO statistic (student_id, noQuestionsAnswered, noCorrectQuestions, noHomeworksCompleted, noHomeworkCorrectQuestions)
+                                     VALUES (%s, %s, %s, %s, %s);
+                                     """, parameter=params, 
+                                     queryType="changeDatabase")
+
+        # Homework accuracy will be handled when it comes to actually completing a homework section        
+        # Find the correct statistic id based on the student id so that we can deal with the topic_accuracy handles which has statistic id as a foreign key instead
+        result = self.controller.database("SELECT id FROM statistic ORDER BY id DESC LIMIT 1", 
+                                                                    queryType="fetchItems")
+        if result:
+            statistic_id = result[0][0]
+        else:
+            raise ValueError("No statistic found for the given student_id.")
+        self.controller.user.statistic_id = statistic_id # For use later on in the program for other menus
+
+        # Finally handle topic accuracy
+        # Do this using a loop to generate each one and relate to statistic id
+        topics = ["1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "2.1", "2.2", "2.3", "2.4", "2.5"]
+        for i in topics:
+            params = (i, 0, 0) # Set params then sql query to store in database
+            self.controller.database("""INSERT INTO topic_accuracy (topiccode, noQuestionsTopicAnswered, noCorrectTopicQuestions)
+                                     VALUES (%s, %s, %s);
+                                     """, parameter=(i, 1, 1), 
+                                     queryType="changeDatabase")
+            
+            # Find ID for the entry just added (latest ID number) so that it can be added to the statistic_topic_accuracy link table
+            result = self.controller.database("SELECT id FROM topic_accuracy ORDER BY id DESC LIMIT 1", 
+                                                                    queryType="fetchItems")
+            if result:
+                topic_id = result[0][0]
+            else:
+                raise ValueError("No topic id found for the given statistic id.")
+
+            # Add topic_id & statistic_id to link table and process is finally done
+            params = (statistic_id, topic_id)
+            self.controller.database("""INSERT INTO statistic_topic_accuracy (statistic_id, topic_accuracy_id)
+                                     VALUES (%s, %s);
+                                     """, parameter=params, 
+                                     queryType="changeDatabase")
+            
+        # All relevant statistical data should now be added to database where needed for the sign up page
+

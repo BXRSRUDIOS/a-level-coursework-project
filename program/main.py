@@ -165,12 +165,13 @@ class Controller(QMainWindow):
 
 class User:
     def __init__(self, firstName, surname, username, email, accountType):
-        self.user_id = None # User ID will be set when the user is created in the databaseS
+        self.user_id = None # User ID will be set when the user is created in the database
         self.firstName = firstName
         self.surname = surname
         self.username = username
         self.email = email
         self.accountType = accountType
+        self.statistic_id = None # ID will be later
 
         # Leave password and salt as None for now, when creating a user account or logging in, these will be set to the hashed password values
         self.hashedPassword = None

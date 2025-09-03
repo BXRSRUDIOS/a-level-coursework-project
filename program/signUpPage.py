@@ -180,7 +180,7 @@ class SignUpPage(QMainWindow):
             params = (i, 0, 0) # Set params then sql query to store in database
             self.controller.database("""INSERT INTO topic_accuracy (topiccode, noQuestionsTopicAnswered, noCorrectTopicQuestions)
                                      VALUES (%s, %s, %s);
-                                     """, parameter=(i, 1, 1), 
+                                     """, parameter=(i, 0, 0), 
                                      queryType="changeDatabase")
             
             # Find ID for the entry just added (latest ID number) so that it can be added to the statistic_topic_accuracy link table

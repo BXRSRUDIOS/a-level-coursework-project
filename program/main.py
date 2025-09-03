@@ -4,8 +4,9 @@ import psycopg2
 import os
 import io
 import hashlib
+from helperFunctions.decorators import handle_exceptions
 from dotenv import load_dotenv
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox
 from PyQt6.QtCore import QSize
 
 # Import Classes for all the different pages
@@ -96,7 +97,8 @@ class Controller(QMainWindow):
 
         # Controllers for other classes
         self.user = None # Set reference to this in separate function
-    
+        
+    @handle_exceptions
     def handlePageChange(self, nameForIndex):
         # This will change the index to the relevant page when called
         # Setup a dictionary which will hold all the relevant keys
@@ -121,49 +123,40 @@ class Controller(QMainWindow):
         if nameForIndex in pagesIndex:
             self.stackedWidget.setCurrentIndex(pagesIndex[nameForIndex])
     
+    @handle_exceptions
     def database(self, query=None, parameter=None, queryType=None):
         # This function will handle query execution to the database.
-        # It must check if the query requires parameters or not (ie for inserting statements because %s will be needed in the query and will have different execution methods)
-
-        # Connect to the database using environment variables for security
-        try:
-            conn = psycopg2.connect(
-                user=os.getenv("DB_USER"),
-                password=os.getenv("POSTGRESQL_PASSWORD"),
-                host=os.getenv("DB_HOST"),
-                port=os.getenv("DB_PORT"),
-                database=os.getenv("DB_NAME")
-            )
-            
-            # Create cursor to execute the queries
-            cur = conn.cursor()
-            if parameter:
-                cur.execute(query, parameter)
-            else:
-                cur.execute(query)
-            
-            # Check query type to see if fetching or changing the database
-            if queryType == "fetchItems":
-                result = cur.fetchall()
-                return result
-            elif queryType == "changeDatabase":
-                conn.commit()
-                return cur.rowcount
-            
-            # Close connection & cursor
-            cur.close()
-            conn.close()
-
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return None
+        conn = psycopg2.connect(
+            user=os.getenv("DB_USER"),
+            password=os.getenv("POSTGRESQL_PASSWORD"),
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT"),
+            database=os.getenv("DB_NAME")
+        )
+        cur = conn.cursor()
+        if parameter:
+            cur.execute(query, parameter)
+        else:
+            cur.execute(query)
+        
+        if queryType == "fetchItems":
+            result = cur.fetchall()
+            return result
+        elif queryType == "changeDatabase":
+            conn.commit()
+            return cur.rowcount
+        
+        cur.close()
+        conn.close()
     
+    @handle_exceptions
     def createUserReference(self, firstName, surname, username, email, accountType):
         # Create relevant object & store in self.user (initiated in the constructor already)
         user = User(firstName, surname, username, email, accountType)
         self.user = user
         self.user.setController(self)
 
+    @handle_exceptions
     def run(self):
         # Actually goes and runs the application by showing the stacked widget
         self.stackedWidget.show()
@@ -189,10 +182,21 @@ class User:
         # Other attributes can be added later on as needed
         self.loggedIn = False
 
+    @handle_exceptions
     def setController(self, controller):
         # Function to set the controller for the user class so that database functions can be called
         self.controller = controller
     
+    def errorPopups(self, message):
+        # Initialise Error Popup Messages with Relevant Key Stats
+        dialogueBox = QMessageBox()
+        dialogueBox.setText(str(message))
+        dialogueBox.setWindowTitle("System Error")
+        dialogueBox.setIcon(QMessageBox.Icon.Critical)
+
+        dialogueBox.exec()
+    
+    @handle_exceptions
     def checkUsernameUnique(self):
         # Function to check if the username is unique in the database
         if self.accountType == "student": # Create the right query for correct account type
@@ -206,7 +210,7 @@ class User:
             return False
         else:
             return True
-    
+    @handle_exceptions
     def checkEmailUnique(self):
         # Function to check if the email is unique in the database
         if self.accountType == "student":
@@ -221,6 +225,7 @@ class User:
         else:
             return True
         
+    @handle_exceptions
     def checkUsernameIsValid(self):
         # Function to check if the username is valid based on certain criteria
         # SQL Injection Prevention not needed as PostgreSQL  will handle it
@@ -228,12 +233,8 @@ class User:
 
         # Load harmful words from the badwords.txt file
         harmfulWordsList = []
-        try:
-            with open("program/badwords.txt", "r") as file:
-                harmfulWordsList = [line.strip() for line in file.readlines()]
-        except FileNotFoundError:
-            print("File Not Found - Check Skipped.")
-            return False
+        with open("program/badwords.txt", "r") as file:
+            harmfulWordsList = [line.strip() for line in file.readlines()]
 
         # Presence Check for Username - Does it exist?
         if self.username is not None and self.username != "":
@@ -264,15 +265,13 @@ class User:
         else:
             return False
     
+    @handle_exceptions
     def checkEmailIsValid(self):
         # Load harmful words from the badwords.txt file
         harmfulWordsList = []
-        try:
-            with open("program/badwords.txt", "r") as file:
-                harmfulWordsList = [line.strip() for line in file.readlines()]
-        except FileNotFoundError:
-            print("File Not Found - Check Skipped.")
-            return False
+        with open("program/badwords.txt", "r") as file:
+            harmfulWordsList = [line.strip() for line in file.readlines()]
+        
         
         # Presence Check for Email - Does it exist?
         if self.email is not None and self.email != "":
@@ -292,21 +291,17 @@ class User:
                             # If all conditions met, return True
                             return True
                         else:
-                            print("Failed 4")
                             return False
                     else:
-                        print("Failed 3")
                         return False
                 else:
-                    print("Failed 2")
                     return False
             else:
-                print("Failed 1")
                 return False
         else:
-            print("Failed 0")
             return False
     
+    @handle_exceptions
     def checkPasswordStrength(self, password):
         # Function to check if the password is of valid length
         
@@ -340,8 +335,9 @@ class User:
                 return False
         else:
             return False
-            
-    def generateHashedPassword(self, password):
+
+    @handle_exceptions    
+    def generateHashedPassword(self, password, salt=os.urandom(16)):
         # Function to generate a hashed password and salt for the user
         # Password is now a parameter rather than an attribute of the class for security reasons
         # Salt is generated using os.urandom(16) which creates a random 16 byte string if no salt is provided
@@ -349,8 +345,15 @@ class User:
         # 100,000 iterations of the hash prevents brute force attacks
         # 64 byte length for the hash
 
-        salt = os.urandom(16)
+        # Check if salt is empty
+        if not salt:
+            salt = os.urandom(16)  # Generate a random 16-byte salt
 
+        # Ensure salt is in bytes
+        if isinstance(salt, str):
+            salt = bytes.fromhex(salt)
+
+        # Generate the hash
         hash = hashlib.pbkdf2_hmac("blake2b", password.encode('utf-8'), salt, iterations=100000, dklen=64)
 
         return (hash.hex(), salt.hex())

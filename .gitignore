@@ -1,3 +1,4 @@
 .env
 ui files/testUi.py
 program/badwords.txt
+tmuaScoreConvertor.py

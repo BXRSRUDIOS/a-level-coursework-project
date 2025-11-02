@@ -6,7 +6,7 @@ class StreakAndGoals(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/streakAndGoalsPage.ui", self)
+        uic.loadUi("the project/ui files/streakAndGoalsPage.ui", self)
         self.setWindowTitle("Streak & Goals Page")
         
         # Create a link to the main controller 

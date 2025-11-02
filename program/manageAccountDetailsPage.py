@@ -6,7 +6,7 @@ class ManageAccountDetails(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/modifyAccountPage.ui", self)
+        uic.loadUi("the project/ui files/modifyAccountPage.ui", self)
         self.setWindowTitle("Manage Account Details Page")
         
         # Create a link to the main controller 

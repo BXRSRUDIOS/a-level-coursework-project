@@ -6,7 +6,7 @@ class TeacherDashboard(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/teacherDashboardPage.ui", self)
+        uic.loadUi("the project/ui files/teacherDashboardPage.ui", self)
         self.setWindowTitle("Your Dashboard")
         
         # Create a link to the main controller 

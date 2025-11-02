@@ -6,7 +6,7 @@ class ViewClassesStudent(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/viewClassesStudentPage.ui", self)
+        uic.loadUi("the project/ui files/viewClassesStudentPage.ui", self)
         self.setWindowTitle("View Classes Page")
         
         # Create a link to the main controller 

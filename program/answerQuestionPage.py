@@ -6,7 +6,7 @@ class AnswerQuestions(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/answerQuestionPage.ui", self)
+        uic.loadUi("the project/ui files/answerQuestionPage.ui", self)
         self.setWindowTitle("Answer Questions Page")
         
         # Create a link to the main controller 

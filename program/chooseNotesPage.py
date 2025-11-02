@@ -6,7 +6,7 @@ class ChooseNotes(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/chooseNotesPage.ui", self)
+        uic.loadUi("the project/ui files/chooseNotesPage.ui", self)
         self.setWindowTitle("Choose Notes Page")
         
         # Create a link to the main controller 

@@ -6,7 +6,7 @@ class ChooseQuestionTopic(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/chooseQuestionTopicPage.ui", self)
+        uic.loadUi("the project/ui files/chooseQuestionTopicPage.ui", self)
         self.setWindowTitle("Choose Question Topic Page")
         
         # Create a link to the main controller 

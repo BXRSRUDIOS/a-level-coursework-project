@@ -6,7 +6,7 @@ class HomePage(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/homePage.ui", self)
+        uic.loadUi("the project/ui files/homePage.ui", self)
         self.setWindowTitle("Home Page")
         
         # Create a link to the main controller 

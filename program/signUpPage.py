@@ -9,7 +9,7 @@ class SignUpPage(QMainWindow):
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
-        uic.loadUi("ui files/signUpPage.ui", self)
+        uic.loadUi("the project/ui files/signUpPage.ui", self)
         self.setWindowTitle("Sign Up Page")
 
         # Create a link to the main controller 

@@ -227,7 +227,7 @@ class User:
             return True
         
     @handle_exceptions
-    def checkUsernameIsValid(self):
+    def checkUsernameIsValid(self, type="signup"):
         # Function to check if the username is valid based on certain criteria
         # SQL Injection Prevention not needed as PostgreSQL  will handle it
         # You learn something new everyday
@@ -251,12 +251,15 @@ class User:
                     if not(any(char in specialChars for char in self.username)):
 
                         # Uniqueness Test using username uniqueness function
-                        if self.checkUsernameUnique() == True:
-                            # If all conditions met, return True
-                            return True
+                        if type == "signup":
+                            if self.checkUsernameUnique() == True:
+                                # If all conditions met, return True
+                                return True
                         
+                            else:
+                                return False
                         else:
-                            return False
+                            return True
                     else:
                         return False
                 else:
@@ -267,7 +270,7 @@ class User:
             return False
     
     @handle_exceptions
-    def checkEmailIsValid(self):
+    def checkEmailIsValid(self, type="signup"):
         # Load harmful words from the badwords.txt file
         harmfulWordsList = []
         with open("program/badwords.txt", "r") as file:
@@ -288,11 +291,15 @@ class User:
                     if any(char in requiredChars for char in self.email) and not(any(char in specialChars for char in self.email)):
 
                         # Uniqueness Test using username uniqueness function
-                        if self.checkEmailUnique() == True:
-                            # If all conditions met, return True
-                            return True
+                        if type == "signup":
+                            if self.checkEmailUnique() == True:
+                                # If all conditions met, return True
+                                return True
+                        
+                            else:
+                                return False
                         else:
-                            return False
+                            return True
                     else:
                         return False
                 else:

@@ -1,6 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget
 from PyQt6 import uic
+from helperFunctions.decorators import handle_exceptions
 
 class StreakAndGoals(QMainWindow):
     def __init__(self):

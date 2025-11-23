@@ -51,7 +51,6 @@ class LoginPage(QMainWindow):
             query = "SELECT firstname, surname, emailAddress, hashedpassword, salt FROM teacher WHERE username = %s"
         values = (username,)
         result = self.controller.database(query, parameter=values, queryType="fetchItems")
-        print("Login check result:", result)
 
         if result:
             return [result[0][0], result[0][1], result[0][2], result[0][3], result[0][4]] # Return firstname, surname, email, hashedpassword, salt
@@ -76,6 +75,10 @@ class LoginPage(QMainWindow):
         elif self.teacherRadio.isChecked():
             accountType = "Teacher"
 
+        if username == "" or emailAddress == "" or password == "" or checked == False:
+            self.loginPopups("presence")
+            return None
+
         usernameCheck = self.checkUsernameInDatabaseForUserReference(username, accountType) # Check if username exists in database for login reference
         if usernameCheck == False:
             self.loginPopups("username") # Username does not exist in database
@@ -87,24 +90,28 @@ class LoginPage(QMainWindow):
             emailInDatabase = usernameCheck[2]
             hashedPasswordInDatabase = usernameCheck[3]
             salt = usernameCheck[4]
-
-        if username == "" or emailAddress == "" or password == "" or checked == False:
-            self.loginPopups("presence")
-            return None
         
-        print(firstname, surname, emailInDatabase, hashedPasswordInDatabase, salt) # For debugging purposes
         self.controller.createUserReference(firstname, surname, username, emailAddress, accountType) # Create user reference in controller for session management
         # Forced Presence Check regardless of whether a validation function handles it or not
         
         # Main Validation Checks with Popups for invalid input
-        if emailAddress != emailInDatabase or self.controller.user.checkEmailIsValid():
+        if emailAddress != emailInDatabase:
             self.loginPopups("email") # Email does not match the one in the database
             return None
         
-        hashCheck = self.cpontroller.user.generateHashedPassword(password, salt) # Generate hashed password from user input for comparison
-        if hashCheck != hashedPasswordInDatabase or self.controller.user.checkPassworStrength():
+        hashCheck = self.controller.user.generateHashedPassword(password, salt)[0] # Generate hashed password from user input for comparison
+        print(hashCheck)
+        print(hashedPasswordInDatabase)
+        if hashCheck != hashedPasswordInDatabase:
             self.loginPopups("password") # Password does not match the one in the database
             return None
+        
+        self.loginPopups("success") # Successful login
+        if accountType == "Student":
+            self.controller.handlePageChange("studentDashboard") # Change to student dashboard page upon successful login
+        elif accountType == "Teacher":
+            self.controller.handlePageChange("teacherDashboard") # Change to teacher dashboard page upon successful login
+        return True
 
         
         

@@ -20,3 +20,8 @@ class StreakAndGoals(QMainWindow):
     def setController(self, controller):
         # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
         self.controller = controller
+        self.controller.userReferenceCreated.connect(self.updateUsernameLabel)
+    
+    def updateUsernameLabel(self, username):
+        # Slot to update the username label
+        self.username.setText(f"Hello, {username}")

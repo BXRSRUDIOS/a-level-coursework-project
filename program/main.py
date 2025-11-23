@@ -7,7 +7,7 @@ import hashlib
 from helperFunctions.decorators import handle_exceptions
 from dotenv import load_dotenv
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox
-from PyQt6.QtCore import QSize
+from PyQt6.QtCore import QSize, pyqtSignal
 
 # Import Classes for all the different pages
 from homePage import HomePage
@@ -34,6 +34,8 @@ load_dotenv()
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 class Controller(QMainWindow):
+    userReferenceCreated = pyqtSignal(str)  # Signal to notify when user reference is created
+
     def __init__(self):
         super().__init__()
         # Setup the actual stacked widget, this will hold the different pages to select and change to when relevant
@@ -122,6 +124,7 @@ class Controller(QMainWindow):
         }
         if nameForIndex in pagesIndex:
             self.stackedWidget.setCurrentIndex(pagesIndex[nameForIndex])
+            
     
     @handle_exceptions
     def database(self, query=None, parameter=None, queryType=None):
@@ -155,6 +158,9 @@ class Controller(QMainWindow):
         user = User(firstName, surname, username, email, accountType)
         self.user = user
         self.user.setController(self)
+        
+        # Emit the signal with the username
+        self.userReferenceCreated.emit(username)
 
     @handle_exceptions
     def run(self):
@@ -234,7 +240,7 @@ class User:
 
         # Load harmful words from the badwords.txt file
         harmfulWordsList = []
-        with open("program/badwords.txt", "r") as file:
+        with open("the project/program/badwords.txt", "r") as file:
             harmfulWordsList = [line.strip() for line in file.readlines()]
 
         # Presence Check for Username - Does it exist?
@@ -273,7 +279,7 @@ class User:
     def checkEmailIsValid(self, type="signup"):
         # Load harmful words from the badwords.txt file
         harmfulWordsList = []
-        with open("program/badwords.txt", "r") as file:
+        with open("the project/program/badwords.txt", "r") as file:
             harmfulWordsList = [line.strip() for line in file.readlines()]
         
         

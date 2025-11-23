@@ -199,4 +199,4 @@ class SignUpPage(QMainWindow):
                                      queryType="changeDatabase")
             
         # All relevant statistical data should now be added to database where needed for the sign up page
-
+    

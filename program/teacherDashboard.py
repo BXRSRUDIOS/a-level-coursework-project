@@ -22,17 +22,6 @@ class TeacherDashboard(QMainWindow):
         self.logoutAccount.clicked.connect(lambda: self.logout())
 
     @handle_exceptions
-    def setController(self, controller):
-        # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
-        self.controller = controller
-        self.controller.userReferenceCreated.connect(self.updateUsernameLabel)
-
-    @handle_exceptions
-    def updateUsernameLabel(self, username):
-        # Slot to update the username label
-        self.username.setText(f"Hello, {username}")
-
-    @handle_exceptions
     def logout(self):
         # Function to log the user out of their account
         # Create popup asking to confirm logout
@@ -67,4 +56,14 @@ class TeacherDashboard(QMainWindow):
             dialogueBox.setText("You have been successfully logged out.")
             dialogueBox.setIcon(QMessageBox.Icon.Information)
             dialogueBox.exec()
-            
+    
+    @handle_exceptions
+    def setController(self, controller):
+        # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
+        self.controller = controller
+        self.controller.userReferenceCreated.connect(self.updateUsernameLabel)
+
+    @handle_exceptions
+    def updateUsernameLabel(self, username):
+        # Slot to update the username label
+        self.username.setText(f"Hello, {username}")

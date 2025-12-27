@@ -15,6 +15,8 @@ class ManageAccountDetails(QMainWindow):
         # Connect button signals to their respective functions
         self.returnToDashboard.clicked.connect(lambda: self.controller.handlePageChange("studentDashboard")) # Temporary, this button will be its own function later on
 
+        
+
     def setController(self, controller):
         # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
         self.controller = controller

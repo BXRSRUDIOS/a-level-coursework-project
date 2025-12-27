@@ -40,6 +40,7 @@ class SignUpPage(QMainWindow):
         elif type == "password":
             dialogueBox.setText("Please ensure your password meets the following strength criteria:\n1. Longer than 12 characters\n2. Contains 2+ Upper Case Characters\n3. Contains 2+ Numbers\n4. Contains 2+ Special Characters")
         elif type == "success":
+            dialogueBox.setWindowTitle("Success")
             dialogueBox.setText("Success! Welcome to your new account")
         dialogueBox.exec()
 

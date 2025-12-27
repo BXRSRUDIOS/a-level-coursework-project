@@ -162,6 +162,13 @@ class Controller(QMainWindow):
         # Emit the signal with the username
         self.userReferenceCreated.emit(username)
 
+        # Add user id to user object by querying the database
+        self.user.user_id=self.database(query="SELECT id FROM student WHERE username = %s" if accountType == "student" else "SELECT id FROM teacher WHERE username = %s", parameter=(username,), queryType="fetchItems")[0][0]
+
+        self.user.loggedIn = True
+        #print(self.user.user_id, self.user.firstName, self.user.surname, self.user.username, self.user.email, self.user.accountType, self.user.statistic_id, self.user.hashedPassword, self.user.salt, self.user.loggedIn)
+
+
     @handle_exceptions
     def run(self):
         # Actually goes and runs the application by showing the stacked widget
@@ -371,6 +378,7 @@ class User:
         hash = hashlib.pbkdf2_hmac("blake2b", password.encode('utf-8'), salt, iterations=100000, dklen=64)
 
         return (hash.hex(), salt.hex())
+
 
 
 if __name__ == "__main__":

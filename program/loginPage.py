@@ -100,8 +100,6 @@ class LoginPage(QMainWindow):
             return None
         
         hashCheck = self.controller.user.generateHashedPassword(password, salt)[0] # Generate hashed password from user input for comparison
-        print(hashCheck)
-        print(hashedPasswordInDatabase)
         if hashCheck != hashedPasswordInDatabase:
             self.loginPopups("password") # Password does not match the one in the database
             return None
@@ -111,7 +109,12 @@ class LoginPage(QMainWindow):
             self.controller.handlePageChange("studentDashboard") # Change to student dashboard page upon successful login
         elif accountType == "Teacher":
             self.controller.handlePageChange("teacherDashboard") # Change to teacher dashboard page upon successful login
+        
+        self.controller.user.hashedPassword = hashedPasswordInDatabase
+        self.controller.user.salt = salt
+
         return True
+    
 
         
         

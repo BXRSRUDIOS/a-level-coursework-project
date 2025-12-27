@@ -163,8 +163,21 @@ class Controller(QMainWindow):
         self.userReferenceCreated.emit(username)
 
         # Add user id to user object by querying the database
-        self.user.user_id=self.database(query="SELECT id FROM student WHERE username = %s" if accountType == "student" else "SELECT id FROM teacher WHERE username = %s", parameter=(username,), queryType="fetchItems")[0][0]
+        # Check Account Type and run relevant query
+        if accountType == "Student":
+            result = self.database(query="SELECT id FROM student WHERE username = %s", parameter=(username,), queryType="fetchItems")
 
+        else:
+            result = self.database(query="SELECT id FROM teacher WHERE username = %s", parameter=(username,), queryType="fetchItems")
+        
+        # Validate result and set user_id
+        if result and len(result) > 0:
+            self.user.user_id = result[0][0]
+        else:
+            print("User ID not found in database after creating user reference.")
+        
+        print(result)
+        print(self.user.user_id)
         self.user.loggedIn = True
         #print(self.user.user_id, self.user.firstName, self.user.surname, self.user.username, self.user.email, self.user.accountType, self.user.statistic_id, self.user.hashedPassword, self.user.salt, self.user.loggedIn)
 

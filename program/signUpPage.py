@@ -116,10 +116,16 @@ class SignUpPage(QMainWindow):
                                      """, parameter=params, 
                                      queryType="changeDatabase")
             
-            # Store the user id for further processing for statistics & goals in generateEmptyStatistics()
-            self.controller.user.user_id = self.controller.database("SELECT id FROM student WHERE username = %s;", 
-                                                                    parameter=(self.controller.user.username,), 
-                                                                    queryType="fetchItems")[0][0]
+            # Fetch student user ID with validation and logging
+            result = self.controller.database("SELECT id FROM student WHERE username = %s;", 
+                                              parameter=(self.controller.user.username,), 
+                                              queryType="fetchItems")
+            if result and len(result) > 0:
+                self.controller.user.user_id = result[0][0]
+            else:
+                print("DEBUG: No student ID found for username:", self.controller.user.username)
+                raise ValueError("No student ID found for the given username.")
+
             self.generateEmptyStatistics(self.controller.user.user_id)
 
         # Correct page switching
@@ -168,9 +174,10 @@ class SignUpPage(QMainWindow):
         # Find the correct statistic id based on the student id so that we can deal with the topic_accuracy handles which has statistic id as a foreign key instead
         result = self.controller.database("SELECT id FROM statistic ORDER BY id DESC LIMIT 1", 
                                                                     queryType="fetchItems")
-        if result:
+        if result and len(result) > 0:
             statistic_id = result[0][0]
         else:
+            print("DEBUG: No statistic found for the given student_id.")
             raise ValueError("No statistic found for the given student_id.")
         self.controller.user.statistic_id = statistic_id # For use later on in the program for other menus
 
@@ -178,26 +185,26 @@ class SignUpPage(QMainWindow):
         # Do this using a loop to generate each one and relate to statistic id
         topics = ["1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "2.1", "2.2", "2.3", "2.4", "2.5"]
         for i in topics:
-            params = (i, 0, 0) # Set params then sql query to store in database
+            params = (i, 0, 0) # Set params then SQL query to store in database
             self.controller.database("""INSERT INTO topic_accuracy (topiccode, noQuestionsTopicAnswered, noCorrectTopicQuestions)
-                                     VALUES (%s, %s, %s);
-                                     """, parameter=(i, 0, 0), 
+                                         VALUES (%s, %s, %s);""", 
+                                     parameter=params, 
                                      queryType="changeDatabase")
-            
-            # Find ID for the entry just added (latest ID number) so that it can be added to the statistic_topic_accuracy link table
+
             result = self.controller.database("SELECT id FROM topic_accuracy ORDER BY id DESC LIMIT 1", 
-                                                                    queryType="fetchItems")
-            if result:
+                                              queryType="fetchItems")
+            if result and len(result) > 0:
                 topic_id = result[0][0]
             else:
+                print("DEBUG: No topic ID found for topic code:", i)
                 raise ValueError("No topic id found for the given statistic id.")
 
-            # Add topic_id & statistic_id to link table and process is finally done
+            # Add topic_id & statistic_id to link table
             params = (statistic_id, topic_id)
             self.controller.database("""INSERT INTO statistic_topic_accuracy (statistic_id, topic_accuracy_id)
-                                     VALUES (%s, %s);
-                                     """, parameter=params, 
+                                         VALUES (%s, %s);""", 
+                                     parameter=params, 
                                      queryType="changeDatabase")
             
         # All relevant statistical data should now be added to database where needed for the sign up page
-    
+

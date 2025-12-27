@@ -34,7 +34,7 @@ class ViewHomeworkStudent(QMainWindow):
             return None
         else:
             # Reset all user attributes on logout
-            print(self.controller.user.user_id, self.controller.user.firstName, self.controller.user.surname, self.controller.user.username, self.controller.user.email, self.controller.user.accountType, self.controller.user.statistic_id, self.controller.user.hashedPassword, self.controller.user.salt, self.controller.user.loggedIn)
+            #print(self.controller.user.user_id, self.controller.user.firstName, self.controller.user.surname, self.controller.user.username, self.controller.user.email, self.controller.user.accountType, self.controller.user.statistic_id, self.controller.user.hashedPassword, self.controller.user.salt, self.controller.user.loggedIn)
             self.controller.user.user_id = None 
             self.controller.user.firstName = None
             self.controller.user.surname = None

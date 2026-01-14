@@ -4,6 +4,7 @@ from PyQt6 import uic
 from helperFunctions.decorators import handle_exceptions
 
 class LoginPage(QMainWindow):
+    @handle_exceptions
     def __init__(self):
         # Create the main window for the home page
         super().__init__()
@@ -17,6 +18,7 @@ class LoginPage(QMainWindow):
         self.returnHome.clicked.connect(lambda: self.controller.handlePageChange("home"))
         self.submitButton.clicked.connect(self.submit)
     
+    @handle_exceptions
     def setController(self, controller):
         # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
         self.controller = controller

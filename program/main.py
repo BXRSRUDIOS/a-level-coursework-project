@@ -176,8 +176,8 @@ class Controller(QMainWindow):
         else:
             print("User ID not found in database after creating user reference.")
         
-        print(result)
-        print(self.user.user_id)
+        #print(result)
+        #print(self.user.user_id)
         self.user.loggedIn = True
         #print(self.user.user_id, self.user.firstName, self.user.surname, self.user.username, self.user.email, self.user.accountType, self.user.statistic_id, self.user.hashedPassword, self.user.salt, self.user.loggedIn)
 

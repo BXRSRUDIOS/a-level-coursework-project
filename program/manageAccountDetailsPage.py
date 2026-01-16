@@ -51,31 +51,83 @@ class ManageAccountDetails(QMainWindow):
             self.updateUsername(newUsername) 
         if newEmail:
             self.updateEmail(newEmail)
-        if newPassword and newPassword == confirmPassword:
-            self.updatePassword(newPassword)
-        else:
-            # Show popup for password mismatch
-            dialogueBox = QMessageBox()
-            dialogueBox.setWindowTitle("Invalid Input")
-            dialogueBox.setIcon(QMessageBox.Icon.Information)
-            dialogueBox.setText("Please ensure you have entered and confirmed your new password correctly.")
-            dialogueBox.exec()
+        if newPassword:
+            if newPassword == confirmPassword:
+                self.updatePassword(newPassword)
+            else:
+                # Show popup for password mismatch
+                dialogueBox = QMessageBox()
+                dialogueBox.setWindowTitle("Invalid Input")
+                dialogueBox.setIcon(QMessageBox.Icon.Information)
+                dialogueBox.setText("Please ensure you have entered and confirmed your new password correctly.")
+                dialogueBox.exec()
         if newFirstName:
             self.updateFirstName(newFirstName)
         if newSurname:
             self.updateSurname(newSurname)
-
+    
     @handle_exceptions
     def updateUsername(self, newUsername):
         print("Username updated to:", newUsername)
     
     @handle_exceptions
     def updateEmail(self, newEmail):
-        print("Email updated to:", newEmail)
+        if newEmail == self.controller.user.email: # Check if the new email is different from the current one
+            # Show popup for invalid input
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Invalid Input")
+            dialogueBox.setIcon(QMessageBox.Icon.Information)
+            dialogueBox.setText("Please ensure your new email address is different from the current one.")
+            dialogueBox.exec()
+        else: # Update the email in the user object and database
+            self.controller.user.email = newEmail # Update the user object
+            if self.controller.user.checkEmailIsValid() == False:
+                # Show popup for invalid email format
+                dialogueBox = QMessageBox()
+                dialogueBox.setWindowTitle("Invalid Input")
+                dialogueBox.setIcon(QMessageBox.Icon.Information)
+                dialogueBox.setText("Please ensure your new email address is in a valid format.")
+                dialogueBox.exec()
+                return None
+            # Update the database
+            if self.controller.user.accountType == "Student":
+                query = "UPDATE student SET emailAddress = %s WHERE username = %s" 
+            elif self.controller.user.accountType == "Teacher":
+                query = "UPDATE teacher SET emailAddress = %s WHERE username = %s"
+            values = (newEmail, self.controller.user.username)
+            self.controller.database(query, parameter=values, queryType="changeDatabase")
+            
+            self.currentEmail.setText(self.controller.user.email) # Update the displayed current email
         
     @handle_exceptions
     def updatePassword(self, newPassword):
-        print("Password updated to:", newPassword)
+        # Validate the password strength
+        if not self.controller.user.checkPasswordStrength(newPassword):
+            # Show popup for weak password
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Weak Password")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.setText("Your password must be at least 12 characters long and include at least 2 uppercase letters, 2 numbers, and 2 special characters.")
+            dialogueBox.exec()
+            return None
+
+        # Generate hashed password and salt
+        hashedPassword, salt = self.controller.user.generateHashedPassword(newPassword)
+
+        # Update the password in the database
+        if self.controller.user.accountType == "Student":
+            query = "UPDATE student SET hashedPassword = %s, salt = %s WHERE username = %s"
+        elif self.controller.user.accountType == "Teacher":
+            query = "UPDATE teacher SET hashedPassword = %s, salt = %s WHERE username = %s"
+        values = (hashedPassword, salt, self.controller.user.username)
+        self.controller.database(query, parameter=values, queryType="changeDatabase")
+
+        # Show success message
+        dialogueBox = QMessageBox()
+        dialogueBox.setWindowTitle("Success")
+        dialogueBox.setIcon(QMessageBox.Icon.Information)
+        dialogueBox.setText("Your password has been successfully updated.")
+        dialogueBox.exec()
 
     @handle_exceptions
     def updateFirstName(self, newFirstName):
@@ -96,6 +148,8 @@ class ManageAccountDetails(QMainWindow):
                 query = "UPDATE teacher SET firstname = %s WHERE username = %s"
             values = (newFirstName, self.controller.user.username)
             self.controller.database(query, parameter=values, queryType="changeDatabase")
+            
+            self.currentFName.setText(self.controller.user.firstName) # Update the displayed current first name
 
     @handle_exceptions
     def updateSurname(self, newSurname):
@@ -117,7 +171,19 @@ class ManageAccountDetails(QMainWindow):
             values = (newSurname, self.controller.user.username)
             self.controller.database(query, parameter=values, queryType="changeDatabase")
 
+            self.currentSName.setText(self.controller.user.surname) # Update the displayed current surname
+
     @handle_exceptions
     def setController(self, controller):
         # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
         self.controller = controller
+        self.controller.userReferenceCreated.connect(self.updateOriginalInformation)
+    
+    @handle_exceptions
+    def updateOriginalInformation(self, username):
+        # Update all user information and show on fiellds
+        self.currentFName.setText(self.controller.user.firstName)
+        self.currentSName.setText(self.controller.user.surname)
+        self.currentUName.setText(self.controller.user.username)
+        self.currentEmail.setText(self.controller.user.email)
+        # Password is not shown for security reasons

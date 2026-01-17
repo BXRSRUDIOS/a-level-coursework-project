@@ -124,6 +124,11 @@ class Controller(QMainWindow):
         }
         if nameForIndex in pagesIndex:
             self.stackedWidget.setCurrentIndex(pagesIndex[nameForIndex])
+        if nameForIndex == "home" or nameForIndex == "login" or nameForIndex == "signup" or nameForIndex == "manageAccountDetails":
+            pass
+        else:
+            # Emit the signal with the username
+            self.userReferenceCreated.emit(self.user.username)
             
     
     @handle_exceptions

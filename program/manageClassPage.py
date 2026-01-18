@@ -15,9 +15,14 @@ class ManageClass(QMainWindow):
 
         # Connect button signals to their respective functions
         self.manageAccountDetails.clicked.connect(lambda: self.controller.handlePageChange("manageAccountDetails"))
-        self.returnToDashboard.clicked.connect(lambda: self.controller.handlePageChange("teacherDashboard")) # Temporary, this button will be its own function later on
+        self.returnToDashboard.clicked.connect(lambda: self.controller.handlePageChange("teacherDashboard"))
 
+        # Connect logout button to logout function
         self.logoutAccount.clicked.connect(lambda: self.logout())
+        
+        # Connect Class Buttons to their respective functions
+        self.createClassButton.clicked.connect(lambda: self.createClass())
+        
 
     @handle_exceptions
     def logout(self):
@@ -55,11 +60,60 @@ class ManageClass(QMainWindow):
             dialogueBox.setIcon(QMessageBox.Icon.Information)
             dialogueBox.exec()
 
+    @handle_exceptions
     def setController(self, controller):
         # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
         self.controller = controller
         self.controller.userReferenceCreated.connect(self.updateUsernameLabel)
     
+    @handle_exceptions
     def updateUsernameLabel(self, username):
         # Slot to update the username label
         self.username.setText(f"Hello, {username}")
+    
+    @handle_exceptions
+    def createClass(self):
+        # Get the information inputted by the user
+        inputClassName = self.classNameLineEdit.text()
+        inputClassYear = self.yearGroupSpinBox.value()
+
+        if not inputClassName:
+            # Show error message if class name is empty
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Input Error")
+            dialogueBox.setText("Class name cannot be empty.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return
+        else:
+            # Check teacher has not created a class with the same name before, different teachers can use the same class name but one teacher cannot create two classes with the same name
+            existingClasses = self.controller.database(query="""SELECT classes.id 
+                                                       FROM classes 
+                                                       JOIN class_teacher ON classes.id = class_teacher.class_id 
+                                                       WHERE classes.name = %s AND class_teacher.teacher_id = %s;""", 
+                                                       parameter=(inputClassName, self.controller.user.user_id), 
+                                                       queryType="fetchItems")
+            if existingClasses:
+                # Show error message if class with same name already exists for this teacher
+                dialogueBox = QMessageBox()
+                dialogueBox.setWindowTitle("Input Error")
+                dialogueBox.setText(f"You have already created a class named '{inputClassName}'. Please choose a different name.")
+                dialogueBox.setIcon(QMessageBox.Icon.Warning)
+                dialogueBox.exec()
+                return
+            
+            else:
+                # Write new class to classes table
+                self.controller.database(query="INSERT INTO classes (name, year) VALUES (%s, %s);", parameter=(inputClassName, inputClassYear), queryType="changeDatabase")
+
+                # Write new to class_teacher table to link class to teacher
+                teacherId = self.controller.user.user_id
+                classId = self.controller.database(query="SELECT id FROM classes WHERE name = %s AND year = %s ORDER BY id DESC LIMIT 1;", parameter=(inputClassName, inputClassYear), queryType="fetchItems")[0]
+                self.controller.database(query="INSERT INTO class_teacher (class_id, teacher_id) VALUES (%s, %s);", parameter=(classId, teacherId), queryType="changeDatabase")
+                
+                # Show success message
+                dialogueBox = QMessageBox()
+                dialogueBox.setWindowTitle("Class Created")
+                dialogueBox.setText(f"Class '{inputClassName}' for Year {inputClassYear} has been successfully created.")
+                dialogueBox.setIcon(QMessageBox.Icon.Information)
+                dialogueBox.exec()

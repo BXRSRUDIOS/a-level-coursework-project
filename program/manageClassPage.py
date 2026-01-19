@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox, QTableWidgetItem
 from PyQt6 import uic
 from helperFunctions.decorators import handle_exceptions
 
@@ -15,14 +15,20 @@ class ManageClass(QMainWindow):
 
         # Connect button signals to their respective functions
         self.manageAccountDetails.clicked.connect(lambda: self.controller.handlePageChange("manageAccountDetails"))
-        self.returnToDashboard.clicked.connect(lambda: self.controller.handlePageChange("teacherDashboard"))
+        self.returnToDashboard.clicked.connect(lambda: self.returnToDashboardCode())
 
         # Connect logout button to logout function
         self.logoutAccount.clicked.connect(lambda: self.logout())
         
         # Connect Class Buttons to their respective functions
         self.createClassButton.clicked.connect(lambda: self.createClass())
+        self.refreshClassLists.clicked.connect(lambda: self.refreshClassList())
         
+    @handle_exceptions
+    def returnToDashboardCode(self):
+        # Function to return to the dashboard page
+        self.controller.handlePageChange("teacherDashboard")
+        self.clearClassList()
 
     @handle_exceptions
     def logout(self):
@@ -34,6 +40,9 @@ class ManageClass(QMainWindow):
         dialogueBox.setIcon(QMessageBox.Icon.Question)
         dialogueBox.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         response = dialogueBox.exec()
+
+        # Clear Class List When Logging Out
+        self.clearClassList()
 
         if response == QMessageBox.StandardButton.No:
             return None
@@ -84,7 +93,7 @@ class ManageClass(QMainWindow):
             dialogueBox.setText("Class name cannot be empty.")
             dialogueBox.setIcon(QMessageBox.Icon.Warning)
             dialogueBox.exec()
-            return
+            return None
         else:
             # Check teacher has not created a class with the same name before, different teachers can use the same class name but one teacher cannot create two classes with the same name
             existingClasses = self.controller.database(query="""SELECT classes.id 
@@ -110,10 +119,34 @@ class ManageClass(QMainWindow):
                 teacherId = self.controller.user.user_id
                 classId = self.controller.database(query="SELECT id FROM classes WHERE name = %s AND year = %s ORDER BY id DESC LIMIT 1;", parameter=(inputClassName, inputClassYear), queryType="fetchItems")[0]
                 self.controller.database(query="INSERT INTO class_teacher (class_id, teacher_id) VALUES (%s, %s);", parameter=(classId, teacherId), queryType="changeDatabase")
-                
+
                 # Show success message
                 dialogueBox = QMessageBox()
                 dialogueBox.setWindowTitle("Class Created")
                 dialogueBox.setText(f"Class '{inputClassName}' for Year {inputClassYear} has been successfully created.")
                 dialogueBox.setIcon(QMessageBox.Icon.Information)
                 dialogueBox.exec()
+
+    @handle_exceptions
+    def refreshClassList(self):
+        self.classesTable.setRowCount(0)  # Clear existing rows
+        teacherId = self.controller.user.user_id  # Get the teacher's user ID
+            
+        # Fetch classes associated with the teacher
+        classes = self.controller.database(query="""SELECT classes.name, classes.year 
+                                                    FROM classes 
+                                                    JOIN class_teacher ON classes.id = class_teacher.class_id 
+                                                    WHERE class_teacher.teacher_id = %s;""", 
+                                                    parameter=(teacherId,), 
+                                                    queryType="fetchItems")
+            
+        # Populate the table with the fetched classes
+        for className, classYear in classes:
+            rowPosition = self.classesTable.rowCount()
+            self.classesTable.insertRow(rowPosition)
+            self.classesTable.setItem(rowPosition, 0, QTableWidgetItem(str(className)))  # Ensure str
+            self.classesTable.setItem(rowPosition, 1, QTableWidgetItem(str(classYear)))  # Ensure str
+    
+    def clearClassList(self):
+        self.classesTable.setRowCount(0)  # Clear existing rows
+

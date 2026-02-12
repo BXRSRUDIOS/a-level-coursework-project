@@ -25,10 +25,17 @@ class ManageClass(QMainWindow):
         self.refreshClassLists.clicked.connect(lambda: self.refreshClassList())
         self.modifyClassButton.clicked.connect(lambda: self.modifyClass())
         self.removeClassButton.clicked.connect(lambda: self.removeClass())
+        self.addStudentButton.clicked.connect(lambda: self.addStudent())
+        self.refreshStudentListButton.clicked.connect(lambda: self.refreshStudentList())
+        self.removeStudentButton.clicked.connect(lambda: self.removeStudent())
 
         # Class List Dictionary to store class information
         # Store as {class_name: class_id}
         self.classList = {}
+
+        # Class List Dictionary to store class information
+        # Store as {student_name: student_id}
+        self.studentList = {}
         
     @handle_exceptions
     def returnToDashboardCode(self):
@@ -140,6 +147,7 @@ class ManageClass(QMainWindow):
         self.classesTable.setRowCount(0)  # Clear existing rows
         # Clear combo box before repopulating
         self.chooseClassComboBox.clear()
+        self.chooseClassComboBox_2.clear()
         self.removeClassComboBox.clear()
         # Clear Class Dictionary 
         self.classList.clear()
@@ -164,6 +172,7 @@ class ManageClass(QMainWindow):
             display_text = f"{className} (Year {classYear})"
             self.chooseClassComboBox.addItem(display_text)
             self.removeClassComboBox.addItem(display_text)
+            self.chooseClassComboBox_2.addItem(display_text)
 
             # Update the class list dictionary
             self.classList[display_text] = classId
@@ -259,9 +268,120 @@ class ManageClass(QMainWindow):
     @handle_exceptions
     def clearClassList(self):
         self.classesTable.setRowCount(0)  # Clear existing rows
-        # Also clear the class selection combo box if present
+        # Also clear the class selection combo box if presents
         self.chooseClassComboBox.clear()
         self.removeClassComboBox.clear()
+        self.chooseClassComboBox_2.clear()
         # Clear Class Dictionary 
         self.classList.clear()
 
+    @handle_exceptions
+    def findStudentExists(self, username, email):
+        # Get the result from the database to then use to check student existance
+        result = self.controller.database(query="SELECT id FROM student WHERE username = %s AND emailaddress = %s;", parameter=(username, email,), queryType="fetchItems")
+        if result:
+            return result  # Return the student ID and user information if found
+        else:
+            return False  # Return None if no student is found with the given username
+    
+    @handle_exceptions
+    def addStudent(self):
+        # Take in user input and find if the student exists
+        username = self.enterUsernameLineEdit.text()
+        email = self.enterEmailLineEdit.text()
+        studentInfo = self.findStudentExists(username, email)
+        
+        if studentInfo:
+            if self.chooseClassComboBox_2.currentText() == "":
+            # Combo box is empty or has empty text
+                self.refreshClassList()  # Refresh class list to ensure the class list dictionary is up to date
+
+            classId = self.classList[self.chooseClassComboBox_2.currentText()]  # Get the class ID from the class list dictionary
+            studentId = studentInfo[0][0]  # Get the student ID from the result of findStudentExists function
+            
+            if self.controller.database(query="SELECT * FROM class_student WHERE class_id = %s AND student_id = %s;", parameter=(classId, studentId), queryType="fetchItems"):
+                # Show error message if student is already in the class
+                dialogueBox = QMessageBox()
+                dialogueBox.setWindowTitle("Student Already Added")
+                dialogueBox.setText(f"Student '{username}' is already added to the class.")
+                dialogueBox.setIcon(QMessageBox.Icon.Warning)
+                dialogueBox.exec()
+                return None
+            else:
+
+               # Add the student to the class in the database
+                self.controller.database(query="INSERT INTO class_student (class_id, student_id) VALUES (%s, %s);", parameter=(classId, studentId), queryType="changeDatabase")
+
+                self.refreshStudentList()  # Refresh the student list to show the newly added student
+
+                # Popup to show success message
+                dialogueBox = QMessageBox()
+                dialogueBox.setWindowTitle("Student Added")
+                dialogueBox.setText(f"Student '{username}' has been added to the class.")
+                dialogueBox.setIcon(QMessageBox.Icon.Information)
+                dialogueBox.exec()
+
+        else:
+            # Show error message if no student is found with the given username and email
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Student Not Found")
+            dialogueBox.setText("No student found with the given username and email. Please check the information and try again.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+    
+    @handle_exceptions
+    def refreshStudentList(self):
+        if self.chooseClassComboBox_2.currentText() == "":
+            # Combo box is empty or has empty text
+            self.refreshClassList()  # Refresh class list to ensure the class list dictionary is up to date
+
+        self.studentsTable.setRowCount(0)  # Clear existing rows
+        self.studentList.clear()  # Clear student list dictionary
+        self.chooseStudentComboBox.clear()  # Clear student selection combo box before repopulating
+        
+        classId = self.classList[self.chooseClassComboBox_2.currentText()]  # Get the class ID from the class list dictionary
+
+        # Fetch classes associated with the teacher
+        students = self.controller.database(query="""SELECT student.id, student.username, student.firstname, student.surname, student.emailaddress
+                                                    FROM student
+                                                    JOIN class_student ON student.id = class_student.student_id 
+                                                    WHERE class_student.class_id = %s;""", 
+                                                    parameter=(classId,), 
+                                                    queryType="fetchItems")
+            
+        # Populate the table and the combo box with the fetched classes
+        for studentId, username, firstname, surname, emailaddress in students:
+            # Get display information
+            displayName = f"{firstname} {surname}"
+            displayUsername = f"{username}"
+            displayEmail = f"{emailaddress}"
+
+            # Add to Table
+            rowPosition = self.studentsTable.rowCount()
+            self.studentsTable.insertRow(rowPosition)
+            self.studentsTable.setItem(rowPosition, 0, QTableWidgetItem(str(displayName)))
+            self.studentsTable.setItem(rowPosition, 1, QTableWidgetItem(str(displayUsername)))
+            self.studentsTable.setItem(rowPosition, 2, QTableWidgetItem(str(displayEmail)))
+
+            # Add to combo box
+            self.chooseStudentComboBox.addItem(displayUsername)
+
+            # Update the student list dictionary
+            self.studentList[username] = studentId
+    
+    @handle_exceptions
+    def removeStudent(self):
+        # Get class and student IDs from dictionaries based on combo box selections
+        classId = self.classList[self.chooseClassComboBox_2.currentText()]
+        studentId = self.studentList[self.chooseStudentComboBox.currentText()]
+        # Remove the student from the class in the database
+        self.controller.database(query="DELETE FROM class_student WHERE class_id = %s AND student_id = %s;", parameter=(classId, studentId), queryType="changeDatabase")
+
+        # Popup to show success message
+        dialogueBox = QMessageBox()
+        dialogueBox.setWindowTitle("Student Removed")
+        dialogueBox.setText(f"Student '{self.chooseStudentComboBox.currentText()}' has been removed from the class.")
+        dialogueBox.setIcon(QMessageBox.Icon.Information)
+        dialogueBox.exec()
+
+        self.refreshStudentList()  # Refresh the student list to show the removed student

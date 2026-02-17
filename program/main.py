@@ -186,6 +186,18 @@ class Controller(QMainWindow):
         self.user.loggedIn = True
         #print(self.user.user_id, self.user.firstName, self.user.surname, self.user.username, self.user.email, self.user.accountType, self.user.statistic_id, self.user.hashedPassword, self.user.salt, self.user.loggedIn)
 
+    @handle_exceptions
+    def generateQuestions(self, numQuestions, difficulty, topicCodes):
+        # Query to find questions matching difficulty and topic codes, limited by number requested, in random order
+        query = """SELECT * FROM question 
+                   WHERE difficulty = %s 
+                   AND topicCode = ANY(%s)
+                   ORDER BY RANDOM()
+                   LIMIT %s"""
+        
+        values = (difficulty, topicCodes, numQuestions)
+        result = self.database(query=query, parameter=values, queryType="fetchItems")
+        return result
 
     @handle_exceptions
     def run(self):

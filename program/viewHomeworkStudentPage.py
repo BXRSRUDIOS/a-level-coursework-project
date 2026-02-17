@@ -19,6 +19,14 @@ class ViewHomeworkStudent(QMainWindow):
 
         self.logoutAccount.clicked.connect(lambda: self.logout())
 
+        # Class List Dictionary to store class information
+        # Store as {class_name: class_id}
+        self.classList = {}
+
+        # Homework List Dictionary to store homework information
+        # Store as {homework_name: homework_id}
+        self.homeworkList = {}
+
     @handle_exceptions
     def logout(self):
         # Function to log the user out of their account

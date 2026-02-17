@@ -330,7 +330,7 @@
      </property>
     </column>
    </widget>
-   <widget class="QPushButton" name="returnToDashboard_2">
+   <widget class="QPushButton" name="refreshClassListButton">
     <property name="geometry">
      <rect>
       <x>70</x>

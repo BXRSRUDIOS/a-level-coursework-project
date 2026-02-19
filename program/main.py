@@ -120,7 +120,7 @@ class Controller(QMainWindow):
             "manageClass": 12,
             "manageHomework": 13,
             "studentStatistics": 14,
-            "teacherStatistics": 15
+            "teacherStatistics": 15,
         }
         if nameForIndex in pagesIndex:
             self.stackedWidget.setCurrentIndex(pagesIndex[nameForIndex])

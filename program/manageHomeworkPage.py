@@ -411,7 +411,7 @@ class ManageHomework(QMainWindow):
         else:
             # Get results from function
             result = self.controller.generateQuestions(numQuestions, difficulty, selectedTopics)
-            print(result) # Testing purposes
+            # print(result) # Testing purposes
 
             # Clear existing questions
             self.controller.database(query="""DELETE FROM question_homework WHERE homework_id = %s;""", 

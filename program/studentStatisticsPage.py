@@ -246,6 +246,7 @@ class StudentStatistics(QMainWindow):
             # Bar chart of counts per topic: two bars per topic (answered, correct)
             topics = ["1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "2.1", "2.2", "2.3", "2.4", "2.5"]
             counts = []
+            
             for topic in topics:
                 topicStats = self.getTopicStatistics(topic)
                 counts.append((topicStats[0], topicStats[1]))  # (answered, correct)

@@ -18,7 +18,7 @@ class StudentDashboard(QMainWindow):
         self.goToNotes.clicked.connect(lambda: self.controller.handlePageChange("chooseNotes"))
         self.goToQuestionTopics.clicked.connect(lambda: self.controller.handlePageChange("chooseQuestionTopic"))
         self.goToClass.clicked.connect(lambda: self.controller.handlePageChange("viewClassesStudent"))
-        self.goToHomework.clicked.connect(lambda: self.controller.handlePageChange("viewHomeworkStudent"))
+        self.goToHomework.clicked.connect(lambda: self.runFunction())
         self.goToStatistics.clicked.connect(lambda: self.controller.handlePageChange("studentStatistics"))
         self.goToStreaksGoals.clicked.connect(lambda: self.controller.handlePageChange("streakAndGoals"))
 
@@ -59,12 +59,20 @@ class StudentDashboard(QMainWindow):
             dialogueBox.setText("You have been successfully logged out.")
             dialogueBox.setIcon(QMessageBox.Icon.Information)
             dialogueBox.exec()
-
+    
+    @handle_exceptions
     def setController(self, controller):
         # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
         self.controller = controller
         self.controller.userReferenceCreated.connect(self.updateUsernameLabel)
     
+    @handle_exceptions
     def updateUsernameLabel(self, username):
         # Slot to update the username label
         self.username.setText(f"Hello, {username}")
+
+    @handle_exceptions
+    def runFunction(self):
+        self.controller.handlePageChange("viewHomeworkStudent")
+        self.controller.view_homework_student.populateAccuracyTable()
+        

@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox, QTableWidgetItem
 from PyQt6 import uic
 from helperFunctions.decorators import handle_exceptions
 from datetime import date
@@ -188,4 +188,16 @@ class ViewHomeworkStudent(QMainWindow):
             self.controller.answer_questions.populateAnswerUI()
             
     
+    @handle_exceptions
+    def populateAccuracyTable(self):
+        accuracies = self.controller.student_statistics.accuracyLast10Homeworks() # Get accuracies for all homeworks attempted by the student
+        # Stored as dictionaries 
+        """
+        [{"homeworkName": "Homework 1", "className": "Class A", "accuracy": 85.5}, ...]
+        """
+        self.pastHomeworkAttempts.setRowCount(len(accuracies))
+        for i, accuracyDict in enumerate(accuracies):
+            self.pastHomeworkAttempts.setItem(i, 0, QTableWidgetItem(accuracyDict["homeworkName"]))
+            self.pastHomeworkAttempts.setItem(i, 1, QTableWidgetItem(accuracyDict["className"]))
+            self.pastHomeworkAttempts.setItem(i, 2, QTableWidgetItem(f"{accuracyDict['accuracy']:.2f}%"))
     

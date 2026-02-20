@@ -19,6 +19,7 @@ class AnswerQuestions(QMainWindow):
         self.returnToDashboard.clicked.connect(lambda: self.returnToDashboardFunction())
         self.submitAnswer.clicked.connect(lambda: self.outputFeedback())
         self.nextQuestion.clicked.connect(lambda: self.nextQuestionFunction())
+        
 
         self.logoutAccount.clicked.connect(lambda: self.logout())
 
@@ -56,7 +57,7 @@ class AnswerQuestions(QMainWindow):
             # Show confirmation dialog if user tries to return to dashboard before completing homework
             dialogueBox = QMessageBox()
             dialogueBox.setWindowTitle("Confirm Return")
-            dialogueBox.setText("You have not completed the homework yet. Are you sure you want to return to the dashboard? Your progress will not be saved.")
+            dialogueBox.setText("You have not completed the task yet. Are you sure you want to return to the dashboard? Your progress will not be saved.")
             dialogueBox.setIcon(QMessageBox.Icon.Warning)
             dialogueBox.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             response = dialogueBox.exec()
@@ -117,18 +118,22 @@ class AnswerQuestions(QMainWindow):
         print(self.classID, self.homeworkID)
     
     @handle_exceptions
-    def fillUpQuestionDict(self):
-        self.currentQuestion = 0
-        self.questionDict = {}
-        # Get question information from database and fill up the question dictionary
-        query = """SELECT question.id, question.questionName, question.correctAnswer, question.incorrectAnswerA, question.incorrectAnswerB, question.incorrectAnswerC, question.difficulty, question.topicCode, question.feedback
-                    FROM question
-                    JOIN question_homework ON question.id = question_homework.question_id
-                    WHERE question_homework.homework_id = %s;"""
-        results = self.controller.database(query=query, parameter=(self.homeworkID,), queryType="fetchItems") # Gets the data from database
-
+    def fillUpQuestionDict(self, questions=None):
+        if self.taskType == "Homework":
+            self.currentQuestion = 0
+            self.questionDict = {}
+            # Get question information from database and fill up the question dictionary
+            query = """SELECT question.id, question.questionName, question.correctAnswer, question.incorrectAnswerA, question.incorrectAnswerB, question.incorrectAnswerC, question.difficulty, question.topicCode, question.feedback
+                        FROM question
+                        JOIN question_homework ON question.id = question_homework.question_id
+                        WHERE question_homework.homework_id = %s;"""
+            results = self.controller.database(query=query, parameter=(self.homeworkID,), queryType="fetchItems") # Gets the data from database
+        else:
+            self.currentQuestion = 0
+            self.questionDict = {}
+            results = questions
         self.numberOfQuestions = len(results) # Used later for end of homework handling
-        
+            
         for index, result in enumerate(results):
             # Iterate through results and fill question dictionary
             self.questionDict[index] = {
@@ -225,11 +230,11 @@ class AnswerQuestions(QMainWindow):
     @handle_exceptions
     def nextQuestionFunction(self):
         if self.currentQuestion == self.numberOfQuestions - 1:
-            # End of homework, show results
+            # End of task, show results
             correctAnswers = sum(1 for q in self.questionDict.values() if q["status"] == "correct")
             dialogueBox = QMessageBox()
-            dialogueBox.setWindowTitle("Homework Completed")
-            dialogueBox.setText(f"You have completed the homework! Your score is {correctAnswers} out of {self.numberOfQuestions}. Saving To Statistics Now...")
+            dialogueBox.setWindowTitle("Task Completed")
+            dialogueBox.setText(f"You have completed the task! Your score is {correctAnswers} out of {self.numberOfQuestions}. Saving To Statistics Now...")
             dialogueBox.setIcon(QMessageBox.Icon.Information)
             dialogueBox.exec()
             self.checkTaskType() # Update statistics based on task type

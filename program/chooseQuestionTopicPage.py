@@ -16,7 +16,7 @@ class ChooseQuestionTopic(QMainWindow):
         # Connect button signals to their respective functions
         self.manageAccountDetails.clicked.connect(lambda: self.controller.handlePageChange("manageAccountDetails"))
         self.returnToDashboard.clicked.connect(lambda: self.controller.handlePageChange("studentDashboard")) # Temporary, this button will be its own function later on
-
+        self.generateButton.clicked.connect(lambda: self.generateQuestions())
         self.logoutAccount.clicked.connect(lambda: self.logout())
 
     @handle_exceptions
@@ -54,12 +54,71 @@ class ChooseQuestionTopic(QMainWindow):
             dialogueBox.setText("You have been successfully logged out.")
             dialogueBox.setIcon(QMessageBox.Icon.Information)
             dialogueBox.exec()
-        
+    
+    @handle_exceptions
     def setController(self, controller):
         # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
         self.controller = controller
         self.controller.userReferenceCreated.connect(self.updateUsernameLabel)
     
+    @handle_exceptions
     def updateUsernameLabel(self, username):
         # Slot to update the username label
         self.username.setText(f"Hello, {username}")
+    
+    @handle_exceptions
+    def generateQuestions(self):
+        # Get topic codes from checkboxes
+        topics = []
+        checked = False
+        if self.topic1_1.isChecked():
+            topics.append("1.1")
+            checked = True
+        if self.topic1_2.isChecked():
+            topics.append("1.2")
+            checked = True
+        if self.topic1_3.isChecked():
+            topics.append("1.3")
+            checked = True
+        if self.topic1_4.isChecked():
+            topics.append("1.4")
+            checked = True
+        if self.topic1_5.isChecked():
+            topics.append("1.5")
+            checked = True
+        if self.topic1_6.isChecked():
+            topics.append("1.6")
+            checked = True
+        if self.topic2_1.isChecked():
+            topics.append("2.1")
+            checked = True
+        if self.topic2_2.isChecked():
+            topics.append("2.2")
+            checked = True
+        if self.topic2_3.isChecked():
+            topics.append("2.3")
+            checked = True
+        if self.topic2_4.isChecked():
+            topics.append("2.4")
+            checked = True
+        if self.topic2_5.isChecked():
+            topics.append("2.5")
+            checked = True
+        
+        if not checked:
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("No Topics Selected")
+            dialogueBox.setText("Please select at least one topic to generate questions.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
+        else:
+            numberQuestions = self.numberQuestionsGenerate.value() # Get the number of questions to generate from the spinbox
+            difficulty = self.difficultyChoice.currentText() # Get the difficulty to generate from the dropdown
+            questions = self.controller.generateQuestions(numberQuestions, difficulty, topics) # Get the generated questions from the controller function
+            self.controller.handlePageChange("answerQuestions")
+            self.controller.answer_questions.taskType = "Topic" 
+            self.controller.answer_questions.fillUpQuestionDict(questions)
+            self.controller.answer_questions.populateAnswerUI()
+            
+        

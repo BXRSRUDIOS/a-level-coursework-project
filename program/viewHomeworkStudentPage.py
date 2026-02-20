@@ -183,8 +183,9 @@ class ViewHomeworkStudent(QMainWindow):
             self.controller.handlePageChange("answerQuestions")
             self.controller.answer_questions.classID = self.classList.get(self.chooseClassComboBox.currentText())
             self.controller.answer_questions.homeworkID = homeworkId
+            self.controller.answer_questions.taskType = "Homework"
             self.controller.answer_questions.fillUpQuestionDict()
             self.controller.answer_questions.populateAnswerUI()
-            self.controller.answer_questions.taskType = "Homework"
+            
     
     

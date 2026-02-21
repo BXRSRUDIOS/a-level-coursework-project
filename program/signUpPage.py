@@ -4,6 +4,7 @@ from PyQt6 import uic
 from helperFunctions.decorators import handle_exceptions
 import random
 import datetime
+from datetime import date, timedelta
 
 class SignUpPage(QMainWindow):
     def __init__(self):
@@ -132,15 +133,17 @@ class SignUpPage(QMainWindow):
             self.controller.handlePageChange("studentDashboard")
         elif self.controller.user.accountType == "Teacher":
             self.controller.handlePageChange("teacherDashboard")
+        
+        
     
     @handle_exceptions
     def generateEmptyStatistics(self, user_id):
         # Start by handling the login statuses
         # Store params early to not deal with ugly code
         today = datetime.date.today() # Today's date for "lastDayLoggedIn"
-        params = (user_id, True, today, False)
-        self.controller.database("""INSERT INTO login_statuses (student_id, alreadyLoggedInToday, lastDayLoggedIn, isBlocked)
-                                     VALUES (%s, %s, %s, %s);
+        params = (user_id, today, False)
+        self.controller.database("""INSERT INTO login_statuses (student_id, lastDayLoggedIn, isBlocked)
+                                     VALUES (%s, %s, %s);
                                      """, parameter=params, 
                                      queryType="changeDatabase")
         
@@ -156,9 +159,9 @@ class SignUpPage(QMainWindow):
         numberQuestionsToAnswerThisWeek = random.randint(25,50),
 
         # Create a params tuple
-        params = (user_id, numberLoginsNeededThisWeek, numberQuestionsToAnswerThisWeek, 1, 0, 0, 0)
-        self.controller.database("""INSERT INTO goals (student_id, timesLoggedInTarget, questionsAnsweredTarget, homeworksCompletedTarget, timesLoggedIn, questionsAnswered, homeworksCompleted)
-                                     VALUES (%s, %s, %s, %s, %s, %s, %s);
+        params = (user_id, numberLoginsNeededThisWeek, numberQuestionsToAnswerThisWeek, 1, 0, 0, 0, date.today() + timedelta(days=7))
+        self.controller.database("""INSERT INTO goals (student_id, timesLoggedInTarget, questionsAnsweredTarget, homeworksCompletedTarget, timesLoggedIn, questionsAnswered, homeworksCompleted, resetDate)
+                                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
                                      """, parameter=params, 
                                      queryType="changeDatabase")
         
@@ -204,4 +207,3 @@ class SignUpPage(QMainWindow):
                                      queryType="changeDatabase")
             
         # All relevant statistical data should now be added to database where needed for the sign up page
-

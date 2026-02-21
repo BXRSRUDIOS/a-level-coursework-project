@@ -1,3 +1,4 @@
+from datetime import datetime, date, timedelta
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox
 from PyQt6 import uic
@@ -17,6 +18,7 @@ class LoginPage(QMainWindow):
         # Connect button signals to their respective functions
         self.returnHome.clicked.connect(lambda: self.controller.handlePageChange("home"))
         self.submitButton.clicked.connect(self.submit)
+        self.attempts = 0 # To track the number of failed login attempts for blocking purposes
     
     @handle_exceptions
     def setController(self, controller):
@@ -103,6 +105,8 @@ class LoginPage(QMainWindow):
         
         hashCheck = self.controller.user.generateHashedPassword(password, salt)[0] # Generate hashed password from user input for comparison
         if hashCheck != hashedPasswordInDatabase:
+            if accountType == "Student":
+                self.blockUser(username) # Check if user needs to be blocked after failed login attempts, only students can be blocked
             self.loginPopups("password") # Password does not match the one in the database
             return None
         
@@ -115,11 +119,79 @@ class LoginPage(QMainWindow):
         self.controller.user.hashedPassword = hashedPasswordInDatabase
         self.controller.user.salt = salt
 
+        # Check if they have logged in on consecutive days for streaks purposes
+        status = self.checkConsecutiveDaysLoginStatus()
+        self.controller.streak_and_goals.updateStreak(status)
+
+        # Check if goals need to be reset
+        if accountType == "Student":
+            if self.checkGoalsReset():
+                self.controller.streak_and_goals.updateGoals()
+            else:
+                self.controller.streak_and_goals.updateNumberOfLoginsGoal()
+
+        self.attempts = 0 # Reset attempts after successful login
         return True
     
+    @handle_exceptions
+    def checkConsecutiveDaysLoginStatus(self):
+        if self.controller.user.accountType == "Student":
+            # Get last day logged in from database
+            result = self.controller.database("SELECT lastDayLoggedIn FROM login_statuses WHERE student_id = %s;", 
+                                              parameter=(self.controller.user.user_id,), 
+                                              queryType="fetchItems")
+            # Get yesterday's date for comparison - it is stored as a date object only so no time
+            yesterday = date.today() - timedelta(days=1)
+            # If yesterday's date == the current date stored in database, then they have logged in consecutive days so return true
+            if result and len(result) > 0:
+                lastDayLoggedIn = result[0][0]
+                if lastDayLoggedIn == yesterday:
+                    return True
+                else:
+                    return False
+    @handle_exceptions
+    def alreadyLoggedInToday(self):
+        if self.controller.user.accountType == "Student":
+            # Get alreadyLoggedInToday status from database
+            result = self.controller.database("SELECT lastDayLoggedIn FROM login_statuses WHERE student_id = %s;", 
+                                              parameter=(self.controller.user.user_id,), 
+                                              queryType="fetchItems")
+            if result and len(result) > 0:
+                lastLoggedInToday = result[0][0]
+                return lastLoggedInToday == date.today()
+            else:
+                return False
+    
+    @handle_exceptions
+    def checkGoalsReset(self):
+        if self.controller.user.accountType == "Student":
+            # Get goal reset date from database
+            result = self.controller.database("SELECT resetDate FROM goals WHERE student_id = %s;", 
+                                              parameter=(self.controller.user.user_id,), 
+                                              queryType="fetchItems")
+            if result and len(result) > 0:
+                goalResetDate = result[0][0]
+                return goalResetDate <= date.today()
+            else:
+                return False
+    
+    @handle_exceptions
+    def blockUser(self, name):
+        # Get user ID
+        userID = self.controller.database("SELECT id FROM student WHERE username = %s", parameter=(name,), queryType="fetchItems")[0][0]
+        if userID: # Only block if userID is found
+            if self.attempts == 3: # Block after 3 failed login attempts
+                self.attempts = 0
+                # Set to True in database
+                self.controller.database("UPDATE login_statuses SET isBlocked = TRUE WHERE student_id = %s", parameter=(userID,), queryType="changeDatabase")
+                # Popup Message To Say Account Blocked
+                dialogueBox = QMessageBox()
+                dialogueBox.setWindowTitle("Account Blocked")
+                dialogueBox.setText("Due to multiple failed login attempts, your account has been blocked. Your app use will be unblocked in around 15 minutes time.")
+                dialogueBox.setIcon(QMessageBox.Icon.Critical)
+                dialogueBox.exec()
 
-        
-        
-        
-    
-    
+                # Unblock after 15 minutes
+                self.controller.database("SELECT unblockUser(%s);", parameter=(userID,), queryType="fetchItems")
+            else:
+                self.attempts += 1    

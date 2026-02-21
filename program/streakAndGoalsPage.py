@@ -1,7 +1,9 @@
+from datetime import datetime, date, timedelta
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox, QTableWidgetItem
 from PyQt6 import uic
 from helperFunctions.decorators import handle_exceptions
+import random
 
 class StreakAndGoals(QMainWindow):
     def __init__(self):
@@ -16,7 +18,7 @@ class StreakAndGoals(QMainWindow):
         # Connect button signals to their respective functions
         self.manageAccountDetails.clicked.connect(lambda: self.controller.handlePageChange("manageAccountDetails"))
         self.returnToDashboard.clicked.connect(lambda: self.controller.handlePageChange("studentDashboard")) # Temporary, this button will be its own function later on
-
+        self.refreshStreaksAndGoalsButton.clicked.connect(lambda: self.refreshStreakAndGoalsPage())
         self.logoutAccount.clicked.connect(lambda: self.logout())
 
     @handle_exceptions
@@ -54,12 +56,110 @@ class StreakAndGoals(QMainWindow):
             dialogueBox.setText("You have been successfully logged out.")
             dialogueBox.setIcon(QMessageBox.Icon.Information)
             dialogueBox.exec()
-        
+    
+    @handle_exceptions
     def setController(self, controller):
         # Function which will set the controller for the page. Will be called in main.py when initialising the pages into the stacked widgets
         self.controller = controller
         self.controller.userReferenceCreated.connect(self.updateUsernameLabel)
     
+    @handle_exceptions
     def updateUsernameLabel(self, username):
         # Slot to update the username label
         self.username.setText(f"Hello, {username}")
+
+    @handle_exceptions
+    def updateStreak(self, status):
+        # Update the streak 
+        if status == True:
+            self.controller.database("""UPDATE streaks
+                                     SET numberDaysStreak = numberDaysStreak + 1
+                                     WHERE student_id = %s""", parameter=(self.controller.user.user_id,), queryType="changeDatabase")
+            currentStreak = self.controller.database("SELECT numberDaysStreak FROM streaks WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+            longestStreak = self.controller.database("SELECT longestDaysStreak FROM streaks WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        elif status == False:
+            # Check if longest streak reached or surpassed and update longest streak if so, then reset current streak to 1
+            # Get current streak & longest streak from database 
+            currentStreak = self.controller.database("SELECT numberDaysStreak FROM streaks WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+            longestStreak = self.controller.database("SELECT longestDaysStreak FROM streaks WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+
+        if currentStreak > longestStreak:
+            self.controller.database("""UPDATE streaks
+                                     SET longestDaysStreak = %s
+                                     WHERE student_id = %s""", parameter=(currentStreak, self.controller.user.user_id), queryType="changeDatabase")
+            if status == False and not (date.today() == self.controller.database("SELECT lastDayLoggedIn FROM login_statuses WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]):
+                self.controller.database("""UPDATE streaks
+                                        SET numberDaysStreak = 1
+                                        WHERE student_id = %s""", parameter=(self.controller.user.user_id,), queryType="changeDatabase")
+        
+        # Set lastLoggedInToday to today's date
+        today = date.today()
+        self.controller.database("""UPDATE login_statuses
+                                     SET lastDayLoggedIn = %s
+                                     WHERE student_id = %s""", parameter=(today, self.controller.user.user_id), queryType="changeDatabase")
+    
+    @handle_exceptions
+    def updateGoals(self):
+        # Generate reset date as start of the week
+        nextWeek = date.today() + timedelta(days=7)
+        
+        # Generate new weekly goals for the user
+        numberOfLogins = random.randint(2,5)
+        numberOfQuestions = random.randint(25,50)
+
+        # Update database with new goals and reset progress
+        query = """UPDATE goals
+        SET timesLoggedIn = 0, questionsAnswered = 0, homeworksCompleted = 0, resetDate = %s,
+        timesLoggedInTarget = %s, questionsAnsweredTarget = %s, homeworksCompletedTarget = 1
+        WHERE student_id = %s"""
+        parameters = (nextWeek, numberOfLogins, numberOfQuestions, self.controller.user.user_id)
+        self.controller.database(query, parameter=parameters, queryType="changeDatabase")
+    
+    @handle_exceptions
+    def updateNumberOfQuestionsGoal(self, questions):
+        # Update the number of questions answered for the goals
+        self.controller.database("""UPDATE goals
+                                     SET questionsAnswered = questionsAnswered + %s
+                                     WHERE student_id = %s""", parameter=(questions, self.controller.user.user_id), queryType="changeDatabase")
+    
+    @handle_exceptions
+    def updateNumberOfLoginsGoal(self):
+        # Update the number of times logged in for the goals
+        self.controller.database("""UPDATE goals
+                                     SET timesLoggedIn = timesLoggedIn + 1
+                                     WHERE student_id = %s""", parameter=(self.controller.user.user_id,), queryType="changeDatabase")
+    
+    @handle_exceptions
+    def updateHomeworkGoal(self):
+        # Update the number of homeworks completed for the goals
+        self.controller.database("""UPDATE goals
+                                     SET homeworksCompleted = homeworksCompleted + 1
+                                     WHERE student_id = %s""", parameter=(self.controller.user.user_id,), queryType="changeDatabase")
+    
+    @handle_exceptions
+    def refreshStreakAndGoalsPage(self):
+        # Get all the statistics from the database and update the labels on the streak and goals page
+        # Get current streak and longest streak
+        currentStreak = self.controller.database("SELECT numberDaysStreak FROM streaks WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        longestStreak = self.controller.database("SELECT longestDaysStreak FROM streaks WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        # Get date reset for goals
+        goalResetDate = self.controller.database("SELECT resetDate FROM goals WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        # Get goals progress
+        timesLoggedIn = self.controller.database("SELECT timesLoggedIn FROM goals WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        timesLoggedInTarget = self.controller.database("SELECT timesLoggedInTarget FROM goals WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        questionsAnswered = self.controller.database("SELECT questionsAnswered FROM goals WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        questionsAnsweredTarget = self.controller.database("SELECT questionsAnsweredTarget FROM goals WHERE student_id =%s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        homeworksCompleted = self.controller.database("SELECT homeworksCompleted FROM goals WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+        homeworksCompletedTarget = self.controller.database("SELECT homeworksCompletedTarget FROM goals WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]
+
+        # Update Table & Labels
+        self.dateLabel.setText(f"Weekly Goals Reset Date: {goalResetDate}")
+        self.stats.setItem(0,0, QTableWidgetItem(str(currentStreak)))
+        self.stats.setItem(1,0, QTableWidgetItem(str(longestStreak)))
+        self.stats.setItem(4,0, QTableWidgetItem(str(timesLoggedIn)))
+        self.stats.setItem(4,1, QTableWidgetItem(str(timesLoggedInTarget)))
+        self.stats.setItem(2,0, QTableWidgetItem(str(questionsAnswered)))
+        self.stats.setItem(2,1, QTableWidgetItem(str(questionsAnsweredTarget)))
+        self.stats.setItem(3,0, QTableWidgetItem(str(homeworksCompleted)))
+        self.stats.setItem(3,1, QTableWidgetItem(str(homeworksCompletedTarget)))
+

@@ -272,6 +272,7 @@ class AnswerQuestions(QMainWindow):
                                            WHERE statistic.student_id = %s;""", 
                                            parameter=(noQuestionsAnswered, noCorrectQuestions, self.controller.user.user_id), 
                                            queryType="changeDatabase")
+        self.controller.streak_and_goals.updateNumberOfQuestionsGoal(totalQuestions)
         
     @handle_exceptions
     def homeworkStatistics(self):
@@ -289,6 +290,7 @@ class AnswerQuestions(QMainWindow):
                                            WHERE statistic.student_id = %s;""", 
                                            parameter=(numHomeworksCompleted, self.controller.user.user_id), 
                                            queryType="changeDatabase")
+        self.controller.streak_and_goals.updateHomeworkGoal()
         
         # Grab homework total questions & correct questions
         correctAnswers = sum(1 for q in self.questionDict.values() if q["status"] == "correct")

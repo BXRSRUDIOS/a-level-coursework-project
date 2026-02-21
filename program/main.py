@@ -273,7 +273,7 @@ class User:
     def checkUsernameIsValid(self, type="signup"):
         # Function to check if the username is valid based on certain criteria
         # SQL Injection Prevention not needed as PostgreSQL  will handle it
-        # You learn something new everyday
+        # You learn something new everyday 
 
         # Load harmful words from the badwords.txt file
         harmfulWordsList = []
@@ -295,12 +295,12 @@ class User:
 
                         # Uniqueness Test using username uniqueness function
                         if type == "signup":
-                            if self.checkUsernameUnique() == True:
+                            if self.checkUsernameUnique() == True: 
                                 # If all conditions met, return True
                                 return True
                         
                             else:
-                                return False
+                                return False 
                         else:
                             return True
                     else:

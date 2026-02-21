@@ -323,6 +323,7 @@ class StudentStatistics(QMainWindow):
             colors = [cmap(i % cmap.N) for i in range(len(accuracies))]
             ax.pie(accuracies, labels=labels, autopct='%1.1f%%', startangle=140, colors=colors, wedgeprops={'edgecolor': 'w'})
             ax.set_title("Overall Accuracy Distribution Across Topics")
+            
 
         # Show Plot In Popup Window
         graphWindow = QDialog(self)

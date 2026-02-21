@@ -123,7 +123,6 @@ class SignUpPage(QMainWindow):
             if result and len(result) > 0:
                 self.controller.user.user_id = result[0][0]
             else:
-                print("DEBUG: No student ID found for username:", self.controller.user.username)
                 raise ValueError("No student ID found for the given username.")
 
             self.generateEmptyStatistics(self.controller.user.user_id)
@@ -164,9 +163,9 @@ class SignUpPage(QMainWindow):
                                      queryType="changeDatabase")
         
         # Handle Overall Statistics
-        params = (user_id, 0, 0, 0, 0)
-        self.controller.database("""INSERT INTO statistic (student_id, noQuestionsAnswered, noCorrectQuestions, noHomeworksCompleted, noHomeworkCorrectQuestions)
-                                     VALUES (%s, %s, %s, %s, %s);
+        params = (user_id, 0, 0, 0)
+        self.controller.database("""INSERT INTO statistic (student_id, noQuestionsAnswered, noCorrectQuestions, noHomeworksCompleted)
+                                     VALUES (%s, %s, %s, %s);
                                      """, parameter=params, 
                                      queryType="changeDatabase")
 
@@ -177,7 +176,6 @@ class SignUpPage(QMainWindow):
         if result and len(result) > 0:
             statistic_id = result[0][0]
         else:
-            print("DEBUG: No statistic found for the given student_id.")
             raise ValueError("No statistic found for the given student_id.")
         self.controller.user.statistic_id = statistic_id # For use later on in the program for other menus
 
@@ -196,7 +194,6 @@ class SignUpPage(QMainWindow):
             if result and len(result) > 0:
                 topic_id = result[0][0]
             else:
-                print("DEBUG: No topic ID found for topic code:", i)
                 raise ValueError("No topic id found for the given statistic id.")
 
             # Add topic_id & statistic_id to link table

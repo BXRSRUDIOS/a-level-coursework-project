@@ -7,7 +7,8 @@ import hashlib
 from helperFunctions.decorators import handle_exceptions
 from dotenv import load_dotenv
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox
-from PyQt6.QtCore import QSize, pyqtSignal
+from PyQt6.QtCore import QSize, QTimer, pyqtSignal
+import random
 
 # Import Classes for all the different pages
 from homePage import HomePage
@@ -99,6 +100,9 @@ class Controller(QMainWindow):
 
         # Controllers for other classes
         self.user = None # Set reference to this in separate function
+
+        # Change name of window
+        self.setWindowTitle("GCSE OCR Computer Science Revision App")
         
     @handle_exceptions
     def handlePageChange(self, nameForIndex):
@@ -189,13 +193,22 @@ class Controller(QMainWindow):
     @handle_exceptions
     def generateQuestions(self, numQuestions, difficulty, topicCodes):
         # Query to find questions matching difficulty and topic codes, limited by number requested, in random order
-        query = """SELECT * FROM question 
-                   WHERE difficulty = %s 
-                   AND topicCode = ANY(%s)
-                   ORDER BY RANDOM()
-                   LIMIT %s"""
+        if difficulty == "Mixed":
+            query = """SELECT * FROM question
+                     WHERE topicCode = ANY(%s)
+                     ORDER BY RANDOM()
+                     LIMIT %s"""
+        else:
+            query = """SELECT * FROM question 
+                       WHERE difficulty = %s 
+                       AND topicCode = ANY(%s)
+                       ORDER BY RANDOM()
+                       LIMIT %s"""
         
-        values = (difficulty, topicCodes, numQuestions)
+        if difficulty == "Mixed":
+            values = (topicCodes, numQuestions)
+        else:
+            values = (difficulty, topicCodes, numQuestions)
         result = self.database(query=query, parameter=values, queryType="fetchItems")
         return result
 
@@ -416,5 +429,14 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     controller = Controller()
 
+    # Create popup to say loading app and wait a moment
+    loadingPopup = QMessageBox()
+    loadingPopup.setText("Welcome to the GCSE Revision App! Press OK to start loading the app, this may take a moment.")
+    loadingPopup.setWindowTitle("Loading")
+    loadingPopup.setIcon(QMessageBox.Icon.Information)
+    loadingPopup.exec()
+
     controller.run()
     sys.exit(app.exec())
+
+    

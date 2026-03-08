@@ -222,7 +222,15 @@ class ManageAccountDetails(QMainWindow):
             self.updateFirstName(newFirstName)
         if newSurname:
             self.updateSurname(newSurname)
-    
+
+        # Clear the input fields after saving changes
+        self.enterUsername.setText("")
+        self.enterEmail.setText("")
+        self.enterPassword.setText("")
+        self.confirmPassword.setText("")
+        self.enterFirstName.setText("")
+        self.enterSurname.setText("")
+
     @handle_exceptions
     def updateUsername(self, newUsername):
         if newUsername == self.controller.user.username: # Check if the new username is different from the current one

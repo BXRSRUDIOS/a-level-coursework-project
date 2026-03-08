@@ -145,3 +145,6 @@ class ViewClassesStudent(QMainWindow):
                 self.classTable.setItem(rowPosition, 3, QTableWidgetItem("Yes"))
             else:
                 self.classTable.setItem(rowPosition, 3, QTableWidgetItem("No"))
+        if rowPosition < 15:
+            for i in range(rowPosition + 1, 15):
+                self.classTable.insertRow(i) # Makes the table look nicer when there are only a few classes a student is in

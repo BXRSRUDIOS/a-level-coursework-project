@@ -120,8 +120,9 @@ class LoginPage(QMainWindow):
         self.controller.user.salt = salt
 
         # Check if they have logged in on consecutive days for streaks purposes
-        status = self.checkConsecutiveDaysLoginStatus()
-        self.controller.streak_and_goals.updateStreak(status)
+        if accountType == "Student":
+            status = self.checkConsecutiveDaysLoginStatus()
+            self.controller.streak_and_goals.updateStreak(status)
 
         # Check if goals need to be reset
         if accountType == "Student":
@@ -131,6 +132,13 @@ class LoginPage(QMainWindow):
                 self.controller.streak_and_goals.updateNumberOfLoginsGoal()
 
         self.attempts = 0 # Reset attempts after successful login
+
+        # Clear All Fields After Submission
+        self.usernameEnter.setText("")
+        self.emailEnter.setText("")
+        self.passwordEnter.setText("")
+        self.checked = False
+
         return True
     
     @handle_exceptions

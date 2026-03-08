@@ -37,6 +37,7 @@ class ManageHomework(QMainWindow):
         self.difficultyComboBox_2.addItem("Easy")
         self.difficultyComboBox_2.addItem("Medium")
         self.difficultyComboBox_2.addItem("Hard")
+        self.difficultyComboBox_2.addItem("Mixed")
 
         self.changeDifficultyComboBox.addItem("Easy")
         self.changeDifficultyComboBox.addItem("Medium")
@@ -411,6 +412,13 @@ class ManageHomework(QMainWindow):
         else:
             # Get results from function
             result = self.controller.generateQuestions(numQuestions, difficulty, selectedTopics)
+            if len(result) < numQuestions:
+                # Warning message popup
+                dialogueBox = QMessageBox()
+                dialogueBox.setWindowTitle("Not Enough Questions")
+                dialogueBox.setText(f"There are only {len(result)} questions in the database that match the selected criteria, so only {len(result)} questions have been generated.")
+                dialogueBox.setIcon(QMessageBox.Icon.Warning)
+                dialogueBox.exec()
             # print(result) # Testing purposes
 
             # Clear existing questions

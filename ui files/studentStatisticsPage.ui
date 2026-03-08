@@ -248,8 +248,8 @@
    <widget class="QPushButton" name="returnToDashboard">
     <property name="geometry">
      <rect>
-      <x>408</x>
-      <y>690</y>
+      <x>410</x>
+      <y>730</y>
       <width>371</width>
       <height>32</height>
      </rect>
@@ -269,7 +269,7 @@
       <x>20</x>
       <y>200</y>
       <width>761</width>
-      <height>481</height>
+      <height>521</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -284,11 +284,30 @@
        <x>0</x>
        <y>0</y>
        <width>761</width>
-       <height>481</height>
+       <height>521</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_3">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>General Statistics</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
        <widget class="QLabel" name="label">
         <property name="font">
          <font>
@@ -300,7 +319,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="1" column="1">
        <widget class="QLabel" name="noQuestionsAnswered">
         <property name="font">
          <font>
@@ -312,7 +331,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
@@ -324,7 +343,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="3" column="1">
        <widget class="QLabel" name="noQuestionsAnsweredCorrectly">
         <property name="font">
          <font>
@@ -336,7 +355,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="label_5">
         <property name="font">
          <font>
@@ -348,7 +367,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="4" column="1">
        <widget class="QLabel" name="overallQuestionAccuracy">
         <property name="font">
          <font>
@@ -360,7 +379,26 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="5" column="0" colspan="2">
+       <widget class="QLabel" name="label_4">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Strongest &amp; Weakest Topics</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
        <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -373,7 +411,7 @@
         </property>
        </spacer>
       </item>
-      <item row="4" column="0">
+      <item row="7" column="0">
        <widget class="QLabel" name="label_6">
         <property name="font">
          <font>
@@ -385,7 +423,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="7" column="1">
        <widget class="QLabel" name="strongestTopic">
         <property name="font">
          <font>
@@ -397,7 +435,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="8" column="0">
        <widget class="QLabel" name="label_7">
         <property name="font">
          <font>
@@ -409,7 +447,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="8" column="1">
        <widget class="QLabel" name="weakestTopic">
         <property name="font">
          <font>
@@ -421,7 +459,7 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="2">
+      <item row="9" column="0" colspan="2">
        <spacer name="verticalSpacer_3">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -434,7 +472,26 @@
         </property>
        </spacer>
       </item>
-      <item row="7" column="0">
+      <item row="10" column="0" colspan="2">
+       <widget class="QLabel" name="label_13">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Topic Accuracies</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
        <widget class="QLabel" name="label_8">
         <property name="font">
          <font>
@@ -446,7 +503,7 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="11" column="1">
        <widget class="QComboBox" name="chooseTopicComboBox">
         <property name="font">
          <font>
@@ -510,7 +567,7 @@
         </item>
        </widget>
       </item>
-      <item row="8" column="0">
+      <item row="12" column="0">
        <widget class="QLabel" name="label_9">
         <property name="font">
          <font>
@@ -522,7 +579,7 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="1">
+      <item row="12" column="1">
        <widget class="QLabel" name="topicAccuracy">
         <property name="font">
          <font>
@@ -534,7 +591,7 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="0" colspan="2">
+      <item row="13" column="0" colspan="2">
        <widget class="QPushButton" name="loadTopicAccuracyButton">
         <property name="font">
          <font>
@@ -546,7 +603,7 @@
         </property>
        </widget>
       </item>
-      <item row="10" column="0" colspan="2">
+      <item row="14" column="0" colspan="2">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -559,7 +616,7 @@
         </property>
        </spacer>
       </item>
-      <item row="11" column="0">
+      <item row="16" column="0">
        <widget class="QLabel" name="label_10">
         <property name="font">
          <font>
@@ -571,7 +628,7 @@
         </property>
        </widget>
       </item>
-      <item row="11" column="1">
+      <item row="16" column="1">
        <widget class="QLabel" name="noHomeworksCompleted">
         <property name="font">
          <font>
@@ -583,7 +640,7 @@
         </property>
        </widget>
       </item>
-      <item row="12" column="0">
+      <item row="17" column="0">
        <widget class="QLabel" name="label_11">
         <property name="font">
          <font>
@@ -595,7 +652,7 @@
         </property>
        </widget>
       </item>
-      <item row="12" column="1">
+      <item row="17" column="1">
        <widget class="QLabel" name="homeworkAccuracy">
         <property name="font">
          <font>
@@ -607,7 +664,20 @@
         </property>
        </widget>
       </item>
-      <item row="14" column="0">
+      <item row="18" column="0" colspan="2">
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="20" column="0">
        <widget class="QLabel" name="label_12">
         <property name="font">
          <font>
@@ -619,7 +689,7 @@
         </property>
        </widget>
       </item>
-      <item row="14" column="1">
+      <item row="20" column="1">
        <widget class="QComboBox" name="chooseGraphStatComboBox">
         <item>
          <property name="text">
@@ -638,7 +708,7 @@
         </item>
        </widget>
       </item>
-      <item row="15" column="0" colspan="2">
+      <item row="21" column="0" colspan="2">
        <widget class="QPushButton" name="graphStatisticsButton">
         <property name="font">
          <font>
@@ -650,18 +720,43 @@
         </property>
        </widget>
       </item>
-      <item row="13" column="0" colspan="2">
-       <spacer name="verticalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+      <item row="15" column="0" colspan="2">
+       <widget class="QLabel" name="label_14">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+          <underline>true</underline>
+         </font>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
         </property>
-       </spacer>
+        <property name="text">
+         <string>Homework Accuracies</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="0" colspan="2">
+       <widget class="QLabel" name="label_15">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Graphing Statistics</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -670,7 +765,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>690</y>
+      <y>730</y>
       <width>361</width>
       <height>32</height>
      </rect>

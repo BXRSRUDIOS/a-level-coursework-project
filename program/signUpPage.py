@@ -134,6 +134,16 @@ class SignUpPage(QMainWindow):
         elif self.controller.user.accountType == "Teacher":
             self.controller.handlePageChange("teacherDashboard")
         
+        # Clear All Fields After Submission
+        self.usernameEnter.setText("")
+        self.emailEnter.setText("")
+        self.passwordEnter.setText("")
+        self.studentRadio.setChecked(False)
+        self.teacherRadio.setChecked(False)
+        self.checked = False
+        self.firstNameEnter.setText("")
+        self.surnameEnter.setText("")
+        
         
     
     @handle_exceptions

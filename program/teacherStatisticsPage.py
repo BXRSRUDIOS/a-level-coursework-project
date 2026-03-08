@@ -100,6 +100,14 @@ class TeacherStatistics(QMainWindow):
                                                     WHERE class_teacher.teacher_id = %s;""", 
                                                     parameter=(teacherId,), 
                                                     queryType="fetchItems")
+
+        if not classes:
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("No Classes")
+            dialogueBox.setText("No classes were found for your account.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
             
         # Populate the table and the combo box with the fetched classes
         for className, classYear, classId in classes:
@@ -112,8 +120,16 @@ class TeacherStatistics(QMainWindow):
     @handle_exceptions
     def refreshStudentList(self):
         if self.chooseClassComboBox.currentText() == "":
-            # Combo box is empty or has empty text
             self.refreshClassList()  # Refresh class list to ensure the class list dictionary is up to date
+
+        classText = self.chooseClassComboBox.currentText()
+        if classText == "" or classText not in self.classList:
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Selection Required")
+            dialogueBox.setText("Please refresh and select a class first.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
 
         self.studentList.clear()  # Clear student list dictionary
         self.chooseStudentComboBox.clear()  # Clear student selection combo box before repopulating
@@ -128,6 +144,15 @@ class TeacherStatistics(QMainWindow):
                                                     WHERE class_student.class_id = %s;""", 
                                                     parameter=(classId,), 
                                                     queryType="fetchItems")
+
+        if not students:
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("No Students")
+            dialogueBox.setText("No students were found in the selected class.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
+
         self.chooseStudentComboBox.addItem("Whole Class")
         # Populate the table and the combo box with the fetched classes
         for studentId, username in students:
@@ -142,6 +167,24 @@ class TeacherStatistics(QMainWindow):
     
     @handle_exceptions
     def loadStatistics(self):
+        classText = self.chooseClassComboBox.currentText()
+        if classText == "" or classText not in self.classList:
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Selection Required")
+            dialogueBox.setText("Please refresh and select a class first.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
+
+        studentText = self.chooseStudentComboBox.currentText()
+        if studentText == "":
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Selection Required")
+            dialogueBox.setText("Please refresh and select a student first.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
+
         # Question Stats
         if self.chooseStudentComboBox.currentText() == "Whole Class":
             studentID = -1 # Set to whole class
@@ -181,10 +224,33 @@ class TeacherStatistics(QMainWindow):
     
     @handle_exceptions
     def loadTopicAccuracy(self):
+        classText = self.chooseClassComboBox.currentText()
+        if classText == "" or classText not in self.classList:
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Selection Required")
+            dialogueBox.setText("Please refresh and select a class first.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
+
+        studentText = self.chooseStudentComboBox.currentText()
+        if studentText == "":
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Selection Required")
+            dialogueBox.setText("Please refresh and select a student first.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
+
         # Get the topic statistics
         topic = self.chooseTopicComboBox.currentText()
         studentID = self.chooseStudentComboBox.currentText()
-        if topic == "" or studentID == "":
+        if topic == "":
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Selection Required")
+            dialogueBox.setText("Please select a topic first.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
             return None
         elif studentID == "Whole Class":
             studentID = -1
@@ -417,11 +483,27 @@ class TeacherStatistics(QMainWindow):
     
     @handle_exceptions
     def graphStatistics(self):
+        classText = self.chooseClassComboBox.currentText()
+        if classText == "" or classText not in self.classList:
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Selection Required")
+            dialogueBox.setText("Please refresh and select a class first.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
+
+        studentText = self.chooseStudentComboBox.currentText()
+        if studentText == "":
+            dialogueBox = QMessageBox()
+            dialogueBox.setWindowTitle("Selection Required")
+            dialogueBox.setText("Please refresh and select a student first.")
+            dialogueBox.setIcon(QMessageBox.Icon.Warning)
+            dialogueBox.exec()
+            return None
+
         statisticToGraph = self.chooseGraphStatComboBox.currentText()
         studentID = self.chooseStudentComboBox.currentText()
-        if studentID == "":
-            return None
-        elif studentID == "Whole Class":
+        if studentID == "Whole Class":
             studentID = -1
         else:
             studentID = self.studentList[self.chooseStudentComboBox.currentText()]

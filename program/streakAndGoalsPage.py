@@ -70,6 +70,8 @@ class StreakAndGoals(QMainWindow):
 
     @handle_exceptions
     def updateStreak(self, status):
+        if self.controller.user.accountType != "Student":
+            return None
         # Update the streak 
         if status == True:
             self.controller.database("""UPDATE streaks
@@ -100,6 +102,8 @@ class StreakAndGoals(QMainWindow):
     
     @handle_exceptions
     def updateGoals(self):
+        if self.controller.user.accountType != "Student":
+            return None
         # Generate reset date as start of the week
         nextWeek = date.today() + timedelta(days=7)
         
@@ -117,6 +121,8 @@ class StreakAndGoals(QMainWindow):
     
     @handle_exceptions
     def updateNumberOfQuestionsGoal(self, questions):
+        if self.controller.user.accountType != "Student":
+            return None
         # Update the number of questions answered for the goals
         self.controller.database("""UPDATE goals
                                      SET questionsAnswered = questionsAnswered + %s
@@ -124,6 +130,8 @@ class StreakAndGoals(QMainWindow):
     
     @handle_exceptions
     def updateNumberOfLoginsGoal(self):
+        if self.controller.user.accountType != "Student":
+            return None
         # Update the number of times logged in for the goals
         self.controller.database("""UPDATE goals
                                      SET timesLoggedIn = timesLoggedIn + 1
@@ -131,6 +139,8 @@ class StreakAndGoals(QMainWindow):
     
     @handle_exceptions
     def updateHomeworkGoal(self):
+        if self.controller.user.accountType != "Student":
+            return None
         # Update the number of homeworks completed for the goals
         self.controller.database("""UPDATE goals
                                      SET homeworksCompleted = homeworksCompleted + 1
@@ -138,6 +148,8 @@ class StreakAndGoals(QMainWindow):
     
     @handle_exceptions
     def refreshStreakAndGoalsPage(self):
+        if self.controller.user.accountType != "Student":
+            return None
         # Get all the statistics from the database and update the labels on the streak and goals page
         # Get current streak and longest streak
         currentStreak = self.controller.database("SELECT numberDaysStreak FROM streaks WHERE student_id = %s", parameter=(self.controller.user.user_id,), queryType="fetchItems")[0][0]

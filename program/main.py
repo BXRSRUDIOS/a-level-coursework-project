@@ -336,7 +336,7 @@ class User:
         # Presence Check for Email - Does it exist?
         if self.email is not None and self.email != "":
             # Length Check for email
-            if len(self.email) >= 10 and "@" in self.email and (".com" in self.email or ".co.uk" in self.email or ".org" in self.email or ".net" in self.email):
+            if len(self.email) >= 10 and "@" in self.email and (".com" in self.email or ".co.uk" in self.email or ".org" in self.email or ".net" in self.email or ".eu" in self.email):
                 
                 # Security Check for certain terms (consists of phrases found in a file of inappropriate content)
                 if not any(badword in self.email.lower() for badword in harmfulWordsList):
